@@ -10,10 +10,13 @@ from .models import Organisation, Demo
 # Create your views here.
 class IndexView(generic.ListView):
     template_name = 'demostatapp/index.html'
-    context_object_name = 'demo_list'
+    context_object_name = 'context'
 
     def get_queryset(self):
-        return Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
+        demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
+        demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
+
+        return {'demo_list': demo_list, 'demo_next': demo_next}
 
 def demos(request):
     return HttpResponse('hi')
@@ -36,6 +39,9 @@ def demos_month(response, date__year, date__month):
 
     return render(response, 'demostatapp/demos_month_list.html', {'date': datetime.date(int(date__year), int(date__month), 1), 'demo_list': demo_list, 'demo_prev': demo_prev, 'demo_next': demo_next})
 
+def demos_day(request, date__year, date__month, date__day):
+    return HttpResponseRedirect(reverse('demostatapp:demos_month', args=(date__year, date__month)) + '#' + date__day)
+
 
 def demo(request, date__year, date__month, date__day, slug):
     demo = get_object_or_404(Demo, date__year=date__year, date__month=date__month, date__day=date__day, slug=slug)
@@ -44,7 +50,7 @@ def demo(request, date__year, date__month, date__day, slug):
 
 def demo_id(request, demo_id):
     demo = get_object_or_404(Demo, pk=demo_id)
-    return HttpResponseRedirect(reverse('demo', args=(demo.slug,)))
+    return HttpResponseRedirect(reverse('demostatapp:demo', args=(demo.slug,)))
 
 class OrganisationView(generic.DetailView):
     model = Organisation
