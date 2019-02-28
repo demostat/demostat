@@ -71,7 +71,8 @@
   {% if demo.note %}
   <div class="card">
     <div class="card-body">
-      {% load md2 %}{{ demo.note|markdown }}
+      <h5 class="card-title">Anmerkungen</h5>
+      <p class="card-text">{{ demo.note }}</p>
     </div>
   </div>
   {% endif %}

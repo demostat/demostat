@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'taggit',
-    'django_markdown2',
     'demostatapp.apps.DemostatappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
