@@ -1,6 +1,8 @@
 # Demostat
 Statusseite für als nächstes anstehende Demonstrationen in Erfurt.
 
+![Screenshot Demo Detail](docs/screenshot-demo-detail.png)
+
 > Die Software steckt noch in der tiefsten Anfangsphase und ist extrem unvollständig!
 
 ## Demo
