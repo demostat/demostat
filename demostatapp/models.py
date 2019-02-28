@@ -3,6 +3,7 @@ from taggit.managers import TaggableManager
 from django.utils import timezone
 
 import decimal
+import datetime
 
 # Create your models here.
 class Organisation(models.Model):
@@ -52,6 +53,9 @@ class Demo(models.Model):
 
     def day(self):
         return self.date.date()
+
+    def month(self):
+        return datetime.date(self.date.date().year, self.date.date().month, 1)
 
     def is_next(self):
         return self.date >= timezone.now() and Demo.objects.filter(date__gt=timezone.now(), date__lt=self.date).count() <= 0

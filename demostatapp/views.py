@@ -22,6 +22,13 @@ def demos(request):
 #    model = Demo
 #    template_name = 'demostatapp/demo_detail.html'
 
+def demos_year(response, date__year):
+    demo_list = get_list_or_404(Demo, date__year=date__year)
+    demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
+    demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
+
+    return render(response, 'demostatapp/demos_year_list.html', {'date': datetime.date(int(date__year), 1, 1), 'demo_list': demo_list, 'demo_prev': demo_prev, 'demo_next': demo_next})
+
 def demos_month(response, date__year, date__month):
     demo_list = get_list_or_404(Demo, date__year=date__year, date__month=date__month)
     demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
