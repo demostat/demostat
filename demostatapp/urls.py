@@ -5,7 +5,7 @@ from . import views
 app_name = 'demostatapp'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('d/<int:pk>/', views.demo_id, name='demo_id'),
+    path('d/<int:demo_id>/', views.demo_id, name='demo_id'),
     path('demo/', views.demos, name='demos'),
     re_path(r'^demo/(?P<date__year>[0-9]{4})/$', views.demos_year, name='demos_year'),
     re_path(r'^demo/(?P<date__year>[0-9]{4})/(?P<date__month>[0-9]{2})/$', views.demos_month, name='demos_month'),
