@@ -50,7 +50,7 @@ def demo(request, date__year, date__month, date__day, slug):
 
 def demo_id(request, demo_id):
     demo = get_object_or_404(Demo, pk=demo_id)
-    return HttpResponseRedirect(reverse('demostatapp:demo', args=(demo.slug,)))
+    return HttpResponseRedirect(reverse('demostatapp:demo', args=(demo.date.strftime("%Y"), demo.date.strftime("%m"), demo.date.strftime("%d"), demo.slug)))
 
 class OrganisationView(generic.DetailView):
     model = Organisation
