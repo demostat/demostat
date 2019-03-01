@@ -1,0 +1,14 @@
+<section>
+  <div class="row">
+    <div class="col-6 text-left">
+      {% if demo_prev %}
+      <a href="{% url 'demostatapp:demos_month' demo_prev.date|date:"Y" demo_prev.date|date:"m" %}" class="btn btn-outline-primary">❮ {{ demo_prev.date|date:"F" }} {{ demo_prev.date|date:"Y" }}</a>
+      {% endif %}
+    </div>
+    <div class="col-6 text-right">
+      {% if demo_next %}
+      <a href="{% url 'demostatapp:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}" class="btn btn-outline-primary">{{ demo_next.date|date:"F" }} {{ demo_next.date|date:"Y" }} ❯</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

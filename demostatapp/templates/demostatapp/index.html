@@ -7,7 +7,7 @@
 {% endblock%}
 
 {% block content %}
-{% include "demostatapp/parts/demo_card_list.html" with demo_list=context.demo_list%}
+{% include "demostatapp/components/demo_card_list.html" with demo_list=context.demo_list%}
 <section>
   <a href="{% url 'demostatapp:demos_month' context.demo_next.date|date:"Y" context.demo_next.date|date:"m" %}#{{ context.demo_next.date|date:"d" }}" class="btn btn-outline-primary btn-block">weitere Demos</a>
 </section>
