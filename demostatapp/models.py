@@ -57,6 +57,9 @@ class Demo(models.Model):
     def month(self):
         return datetime.date(self.date.date().year, self.date.date().month, 1)
 
+    def year(self):
+        return datetime.date(self.date.date().year, 1, 1)
+
     def is_next(self):
         return self.date >= timezone.now() and Demo.objects.filter(date__gt=timezone.now(), date__lt=self.date).count() <= 0
 

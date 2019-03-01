@@ -1,0 +1,26 @@
+{% extends "demostatapp/base.html" %}
+
+{% block title %}Alle Demos{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Alle Demos</h1>
+{% endblock%}
+
+{% block content %}
+{% regroup demo_list|dictsort:"date" by year as demo_list_date %}
+<section>
+  <div class="row">
+{% for year, demos in demo_list_date %}
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ year|date:"Y" }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ demos|length}} Demo{% if demos|length > 1 %}s{% endif %}</h6>
+          <a href="{% url 'demostatapp:demos_year' year|date:"Y" %}" class="btn btn-primary card-link">Mehr Details</a>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+  </div>
+</section>
+{% endblock %}

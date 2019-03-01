@@ -18,12 +18,10 @@ class IndexView(generic.ListView):
 
         return {'demo_list': demo_list, 'demo_next': demo_next}
 
-def demos(request):
-    return HttpResponse('hi')
+def demos(response):
+    demo_list = get_list_or_404(Demo)
 
-#class DemoView(generic.DetailView):
-#    model = Demo
-#    template_name = 'demostatapp/demo_detail.html'
+    return render(response, 'demostatapp/demos_list.html', {'demo_list': demo_list})
 
 def demos_year(response, date__year):
     demo_list = get_list_or_404(Demo, date__year=date__year)
