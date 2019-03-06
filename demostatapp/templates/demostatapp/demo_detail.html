@@ -6,7 +6,7 @@
 <h1 class="display-4">{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}</h1>
 <section class="tags">
   <span class="h3">
-    {% for tag in demo.tags.all %}<a href="{% url 'demostatapp:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
+    {% for tag in demo.tags.all %}<a href="{% url 'demostatapp:tag' tag.slug %}" class="badge badge-light mr-2">{{ tag.name }}</a>{% endfor %}
   </span>
 </section>
 {% endblock%}
@@ -36,7 +36,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Was?</h5>
-      <p class="card-text">{{ demo.description }}</p>
+      <p class="card-text">{{ demo.description | linebreaks }}</p>
     </div>
   </div>
   {% if demo.link_set.all %}
@@ -72,7 +72,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Anmerkungen</h5>
-      <p class="card-text">{{ demo.note }}</p>
+      <p class="card-text">{{ demo.note | linebreaks }}</p>
     </div>
   </div>
   {% endif %}
