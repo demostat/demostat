@@ -6,9 +6,13 @@
 {% for day, demos in demo_list_date %}
 <section id="{{ day|date:"d" }}">
   <h3 class="title">{% if day|date:"d.m.Y" == today %}Heute{% else %}{{ day|date:"l, d.m.Y" }}{% endif %}</h3>
-  {% for demo in demos %}
-  {% include "demostatapp/components/demo_card.html" %}
-  {% endfor %}
+  <div class="row">
+    {% for demo in demos %}
+    <div class="col-12 col-md-6 col-lg-4">
+      {% include "demostatapp/components/demo_card.html" %}
+    </div>
+    {% endfor %}
+  </div>
 </section>
 {% endfor %}
 {% else %}
