@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'demostatapp/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'demostat/css/bootstrap.min.css' %}">
 
-    <link rel="stylesheet" href="{% static 'demostatapp/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'demostat/css/style.css' %}">
 
     <title>{% block title %}{% endblock %} | Demos in Erfurt</title>
   </head>
@@ -47,7 +47,7 @@
     <footer>
       <div class="container">
         <a href="#">Über</a>
-        <a href="{% url 'demostatapp:demos' %}">Archiv</a>
+        <a href="{% url 'demostat:demos' %}">Archiv</a>
         <a href="#">Impressum</a>
         <a href="#">Datenschutz</a>
         <a href="https://github.com/clerie/demostat">Quellcode auf GitHub</a>
@@ -56,7 +56,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{% static 'demostatapp/js/jquery.slim.min.js' %}"></script>
-    <script src="{% static 'demostatapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'demostat/js/jquery.slim.min.js' %}"></script>
+    <script src="{% static 'demostat/js/bootstrap.min.js' %}"></script>
   </body>
 </html>

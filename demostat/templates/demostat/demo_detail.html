@@ -1,4 +1,4 @@
-{% extends "demostatapp/base.html" %}
+{% extends "demostat/base.html" %}
 
 {% block title %}{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}{% endblock %}
 
@@ -6,7 +6,7 @@
 <h1 class="display-4">{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}</h1>
 <section class="tags">
   <span class="h3">
-    {% for tag in demo.tags.all %}<a href="{% url 'demostatapp:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
+    {% for tag in demo.tags.all %}<a href="{% url 'demostat:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
   </span>
 </section>
 {% endblock%}
@@ -29,7 +29,7 @@
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wer?</h5>
-        <p class="card-text"><a href="{% url 'demostatapp:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
+        <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
       </div>
     </div>
   </div>
@@ -83,7 +83,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Permalink</span>
         </div>
-        <input class="form-control" type="text" placeholder="Permalink" value="https://{{ request.get_host }}{% url 'demostatapp:demo_id' demo.pk %}" readonly>
+        <input class="form-control" type="text" placeholder="Permalink" value="https://{{ request.get_host }}{% url 'demostat:demo_id' demo.pk %}" readonly>
       </div>
     </div>
   </div>

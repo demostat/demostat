@@ -1,0 +1,14 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Demos von {{ organisation.name }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Demos von {{ organisation.name }}</h1>
+{% endblock%}
+
+{% block content %}
+{% include "demostat/components/demo_card_list.html" with demo_list=organisation.demo_set.all %}
+<section>
+  <a href="{% url 'demostat:demos' %}" class="btn btn-outline-primary btn-block">weitere Demos</a>
+</section>
+{% endblock %}
