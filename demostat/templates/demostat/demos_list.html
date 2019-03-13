@@ -1,4 +1,4 @@
-{% extends "demostatapp/base.html" %}
+{% extends "demostat/base.html" %}
 
 {% block title %}Alle Demos{% endblock %}
 
@@ -16,7 +16,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ year|date:"Y" }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ demos|length}} Demo{% if demos|length > 1 %}s{% endif %}</h6>
-          <a href="{% url 'demostatapp:demos_year' year|date:"Y" %}" class="btn btn-primary card-link">Mehr Details</a>
+          <a href="{% url 'demostat:demos_year' year|date:"Y" %}" class="btn btn-primary card-link">Mehr Details</a>
         </div>
       </div>
     </div>
