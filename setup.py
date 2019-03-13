@@ -30,4 +30,9 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
+    python_requires=">=3.6",
+    install_requires=[
+        'Django>=2.1',
+        'django-taggit>=0.24',
+    ],
 )
