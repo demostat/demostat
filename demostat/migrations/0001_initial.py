@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=30)),
                 ('url', models.URLField()),
-                ('demo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='demostatapp.Demo')),
+                ('demo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='demostat.Demo')),
             ],
         ),
         migrations.CreateModel(
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='demo',
             name='organisation',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='demostatapp.Organisation'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='demostat.Organisation'),
         ),
         migrations.AddField(
             model_name='demo',

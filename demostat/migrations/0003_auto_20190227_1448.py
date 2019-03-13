@@ -8,7 +8,7 @@ import taggit.managers
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('demostatapp', '0002_auto_20190225_1052'),
+        ('demostat', '0002_auto_20190225_1052'),
     ]
 
     operations = [
@@ -44,12 +44,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='demo',
             name='location',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostatapp.Location'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostat.Location'),
         ),
         migrations.AlterField(
             model_name='demo',
             name='organisation',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostatapp.Organisation'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostat.Organisation'),
         ),
         migrations.AlterField(
             model_name='demo',
@@ -59,6 +59,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='link',
             name='demo',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostatapp.Demo'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='demostat.Demo'),
         ),
     ]
