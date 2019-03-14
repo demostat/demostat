@@ -43,6 +43,9 @@ class Tag(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField()
 
+    def __str__(self):
+        return self.name
+
 class Demo(models.Model):
     slug = models.SlugField()
     organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
