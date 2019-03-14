@@ -12,12 +12,12 @@
 
     <link rel="stylesheet" href="{% static 'demostat/css/style.css' %}">
 
-    <title>{% block title %}{% endblock %} | Demos in Erfurt</title>
+    <title>{% block title %}{% endblock %} | {% if SITE_TITLE %}{{ SITE_TITLE }}{% else %}Demostat{% endif %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'demostat:index' %}">Demos in Erfurt</a>
+        <a class="navbar-brand" href="{% url 'demostat:index' %}">{% if SITE_TITLE %}{{ SITE_TITLE }}{% else %}Demostat{% endif %}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,8 +48,8 @@
       <div class="container">
         <a href="#">Über</a>
         <a href="{% url 'demostat:demos' %}">Archiv</a>
-        <a href="#">Impressum</a>
-        <a href="#">Datenschutz</a>
+        {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}">Impressum</a>{% endif %}
+        {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}">Datenschutz</a>{% endif %}
         <a href="https://github.com/demostat/demostat">Quellcode auf GitHub</a>
       </div>
     </footer>
