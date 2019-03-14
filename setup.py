@@ -35,6 +35,5 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         'Django>=2.1',
-        'django-taggit>=0.24',
     ],
 )

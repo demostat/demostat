@@ -1,11 +1,9 @@
 from django.db import models
-from taggit.managers import TaggableManager
 from django.utils import timezone
 
 import decimal
 import datetime
 
-# Create your models here.
 class Organisation(models.Model):
     slug = models.SlugField()
     name = models.CharField(max_length=200)
@@ -41,6 +39,10 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+    slug = models.SlugField()
+
 class Demo(models.Model):
     slug = models.SlugField()
     organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
@@ -49,7 +51,7 @@ class Demo(models.Model):
     note = models.TextField(blank=True)
     date = models.DateTimeField()
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
-    tags = TaggableManager(blank=True)
+    tags = models.ManyToManyField(Tag)
 
     def day(self):
         return self.date.date()
