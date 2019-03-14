@@ -93,9 +93,11 @@ def demo_id(request, demo_id):
     demo = get_object_or_404(Demo, pk=demo_id)
     return HttpResponseRedirect(reverse('demostat:demo', args=(demo.date.strftime("%Y"), demo.date.strftime("%m"), demo.date.strftime("%d"), demo.slug)))
 
-class OrganisationView(generic.DetailView):
-    model = Organisation
-    template_name = 'demostat/organisation_detail.html'
+def OrganisationView(request, slug):
+    organisation = get_object_or_404(Organisation, slug=slug)
+    return render(request, 'demostat/organisation_detail.html', make_context_object({
+        'organisation': organisation,
+    }))
 
 def tag(request, tag_slug):
     demo_list = get_list_or_404(Demo, tags__slug__exact=tag_slug, date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4))
