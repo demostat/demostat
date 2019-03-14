@@ -26,18 +26,14 @@ def make_context_object(context):
     return {**s, **context}
 
 # Create your views here.
-class IndexView(generic.ListView):
-    template_name = 'demostat/index.html'
-    context_object_name = 'context'
+def IndexView(request):
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
+    demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
 
-    def get_queryset(self):
-        demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
-        demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
-
-        return {
-            'demo_list': demo_list,
-            'demo_next': demo_next,
-        }
+    return render(request, 'demostat/index.html', make_context_object({
+        'demo_list': demo_list,
+        'demo_next': demo_next,
+    }))
 
 def demos(request):
     demo_list = get_list_or_404(Demo)

@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'demostat'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
+    path('', views.IndexView, name='index'),
     path('about/', views.AboutView, name='about'),
     path('d/<int:demo_id>/', views.demo_id, name='demo_id'),
     path('demo/', views.demos, name='demos'),
