@@ -48,9 +48,9 @@
       <div class="container">
         <a href="{% url 'demostat:about' %}">Über</a>
         <a href="{% url 'demostat:demos' %}">Archiv</a>
-        {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}">Impressum</a>{% endif %}
-        {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}">Datenschutz</a>{% endif %}
-        <a href="https://github.com/demostat/demostat">Quellcode auf GitHub</a>
+        {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}" target="_blank">Impressum</a>{% endif %}
+        {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}" target="_blank">Datenschutz</a>{% endif %}
+        <a href="https://github.com/demostat/demostat" target="_blank">Quellcode auf GitHub</a>
       </div>
     </footer>
 
