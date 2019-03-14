@@ -2,15 +2,15 @@
   <div class="row">
     <div class="col-4 text-left">
       {% if demo_prev %}
-      <a href="{% url 'demostat:demos_month' demo_prev.date|date:"Y" demo_prev.date|date:"m" %}" class="btn btn-outline-primary">❮ {{ demo_prev.date|date:"F" }} {{ demo_prev.date|date:"Y" }}</a>
+      <a href="{% url 'demostat:demos_month' demo_prev.date|date:"Y" demo_prev.date|date:"m" %}{% if filter_org %}?org={{ filter_org }}{% endif %}" class="btn btn-outline-primary">❮ {{ demo_prev.date|date:"F" }} {{ demo_prev.date|date:"Y" }}</a>
       {% endif %}
     </div>
     <div class="col-4 text-center">
-      <a href="{% url 'demostat:demos_year' date|date:"Y" %}" class="btn btn-outline-primary">{{ date|date:"Y" }}</a>
+      <a href="{% url 'demostat:demos_year' date|date:"Y" %}{% if filter_org %}?org={{ filter_org }}{% endif %}" class="btn btn-outline-primary">{{ date|date:"Y" }}</a>
     </div>
     <div class="col-4 text-right">
       {% if demo_next %}
-      <a href="{% url 'demostat:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}" class="btn btn-outline-primary">{{ demo_next.date|date:"F" }} {{ demo_next.date|date:"Y" }} ❯</a>
+      <a href="{% url 'demostat:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}{% if filter_org %}?org={{ filter_org }}{% endif %}" class="btn btn-outline-primary">{{ demo_next.date|date:"F" }} {{ demo_next.date|date:"Y" }} ❯</a>
       {% endif %}
     </div>
   </div>

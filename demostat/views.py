@@ -25,8 +25,16 @@ class IndexView(generic.ListView):
 def demos(request):
     demo_list = get_list_or_404(Demo)
 
+    if 'tag' in request.GET:
+        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
+
+    if 'org' in request.GET:
+        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
+
     return render(request, 'demostat/demos_list.html', {
-        'demo_list': demo_list
+        'demo_list': demo_list,
+        'filter_tag': sorted(request.GET.getlist('tag')),
+        'filter_org': request.GET.get('org'),
     })
 
 def demos_year(request, date__year):
@@ -34,11 +42,19 @@ def demos_year(request, date__year):
     demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
 
+    if 'tag' in request.GET:
+        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
+
+    if 'org' in request.GET:
+        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
+
     return render(request, 'demostat/demos_year_list.html', {
         'date': datetime.date(int(date__year), 1, 1),
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
+        'filter_tag': sorted(request.GET.getlist('tag')),
+        'filter_org': request.GET.get('org'),
     })
 
 def demos_month(request, date__year, date__month):
