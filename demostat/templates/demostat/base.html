@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="#">Über</a>
+              <a class="nav-link" href="{% url 'demostat:about' %}">Über</a>
             </li>
           </ul>
           <a href="#" class="btn btn-primary">Demo eintragen</a>
@@ -46,7 +46,7 @@
     </main>
     <footer>
       <div class="container">
-        <a href="#">Über</a>
+        <a href="{% url 'demostat:about' %}">Über</a>
         <a href="{% url 'demostat:demos' %}">Archiv</a>
         {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}">Impressum</a>{% endif %}
         {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}">Datenschutz</a>{% endif %}

@@ -115,3 +115,6 @@ def tag(request, tag_slug):
         'tag_name': tag_name,
         'demo_list': demo_list
     }))
+
+def AboutView(request):
+    return render(request, 'demostat/about.html', make_context_object({}))
