@@ -68,6 +68,15 @@ urlpatterns = [
   ...
 ]
 ```
+Außerdem muss in `mysite/urls.py` in Zeile 17
+```
+from django.urls import path
+```
+durch
+```
+from django.urls import path, include
+```
+ersetzt werden
 
 Datenbank-Migrieren:
 ```
