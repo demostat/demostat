@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.conf import settings
 import datetime
+from .utils import Querystring
 
 from .models import Organisation, Demo, Tag
 
@@ -60,17 +61,30 @@ def demos_year(request, date__year):
     demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
 
     filter_tag_list = []
+    filter_tag_list_slugs = []
     if 'tag' in request.GET:
-        demo_list = demo_list.filter(tags__slug__in=request.GET.getlist('tag'))
-
         for tag in sorted(request.GET.getlist('tag')):
-            filter_tag_list.append(Tag.objects.get(slug=tag))
+            try:
+                tag = Tag.objects.get(slug=tag)
+                filter_tag_list.append(tag)
+                filter_tag_list_slugs.append(tag.slug)
+            except:
+                pass
+
+
+        if filter_tag_list:
+            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
 
     filter_org = {}
     if 'org' in request.GET:
-        demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+        try:
+            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+        except:
+            pass
+        else:
+            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
 
-        filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+
 
     return render(request, 'demostat/demos_year_list.html', make_context_object({
         'date': datetime.date(int(date__year), 1, 1),
@@ -88,17 +102,30 @@ def demos_month(request, date__year, date__month):
         raise Http404()
 
     filter_tag_list = []
+    filter_tag_list_slugs = []
     if 'tag' in request.GET:
-        demo_list = demo_list.filter(tags__slug__in=request.GET.getlist('tag'))
-
         for tag in sorted(request.GET.getlist('tag')):
-            filter_tag_list.append(Tag.objects.get(slug=tag))
+            try:
+                tag = Tag.objects.get(slug=tag)
+                filter_tag_list.append(tag)
+                filter_tag_list_slugs.append(tag.slug)
+            except:
+                pass
+
+
+        if filter_tag_list:
+            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
 
     filter_org = {}
+    filter_org_slug = ""
     if 'org' in request.GET:
-        demo_list = demo_list.filter(organisation__slug=request.GET['org'])
-
-        filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+        try:
+            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+            filter_org_slug = filter_org.slug
+        except:
+            pass
+        else:
+            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
 
     demo_list = demo_list.distinct()
 
