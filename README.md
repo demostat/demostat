@@ -213,6 +213,12 @@ a2ensite mysite.conf
 systemctl reload apache2
 ```
 
+**Wenn änderungen in der `mysite/settings.py` vorgenommen werden, muss apache neu geladen werden!**
+
+```bash
+systemctl reload apache2
+```
+
 ## Konfigurationen
 Es ist möglich Demostat über Variablen in `mysite/settings.py` zu konfigurieren.
 
