@@ -28,9 +28,9 @@ Jede Organisation hat einen Namen, eine kurze Beschreibung und einen Link zur Ho
 
 ## Installation
 ### Eigenständige Entwicklungsversion
-Demostat herunterladen:
+Demostat Entwicklungsversion herunterladen:
 ```
-git clone https://github.com/demostat/demostat.git
+git clone -b dev https://github.com/demostat/demostat.git
 ```
 
 Abhängigkeiten installieren:
