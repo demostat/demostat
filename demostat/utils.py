@@ -24,7 +24,8 @@ class Querystring():
     def get_without(self, key, value):
         dict = self.__params
         if key in dict:
-            dict[key].remove(value)
+            while value in dict[key]:
+                dict[key].remove(value)
 
         return self.__to_querystring(dict)
 
