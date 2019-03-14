@@ -51,23 +51,34 @@ def demos(request):
     }))
 
 def demos_year(request, date__year):
-    demo_list = get_list_or_404(Demo, date__year=date__year)
+    demo_list = Demo.objects.filter(date__year=date__year).order_by('date')
+
+    if not demo_list:
+        raise Http404()
+
     demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
 
+    filter_tag_list = []
     if 'tag' in request.GET:
-        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
+        demo_list = demo_list.filter(tags__slug__in=request.GET.getlist('tag'))
 
+        for tag in sorted(request.GET.getlist('tag')):
+            filter_tag_list.append(Tag.objects.get(slug=tag))
+
+    filter_org = {}
     if 'org' in request.GET:
-        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
+        demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+
+        filter_org = Organisation.objects.get(slug=request.GET.get('org'))
 
     return render(request, 'demostat/demos_year_list.html', make_context_object({
         'date': datetime.date(int(date__year), 1, 1),
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter_tag': filter_tag_list,
+        'filter_org': filter_org,
     }))
 
 def demos_month(request, date__year, date__month):
