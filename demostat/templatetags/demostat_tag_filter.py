@@ -1,26 +1,25 @@
 from django import template
+from ..utils import Querystring
 
 register = template.Library()
 
-def generate_qs(dict):
-    out = ''
-    for value in dict['tag']:
-            out += '&tag=' + str(value)
+def tag_dict_to_array(dict):
+    out = {}
+    for tag, values in dict.items():
+        out[tag] = []
+        for v in values:
+            out[tag].append(v.slug)
 
-    if dict['org']:
-        out += '&org=' + str(dict['org'])
+    print(out)
 
-    if out:
-        return '?' + out[1:]
-    else:
-        return ''
+    return out
 
 @register.simple_tag
 def tf_generate_qs(**dict):
-    return generate_qs(dict)
+    qs = Querystring(tag_dict_to_array(dict))
+    return qs.get()
 
 @register.simple_tag
-def tf_generate_qs_without(value, **dict):
-    if value in dict['tag']:
-        dict['tag'].remove(value)
-    return generate_qs(dict)
+def tf_generate_qs_without_tag(value, **dict):
+    qs = Querystring(tag_dict_to_array(dict))
+    return qs.get_without("tag", value)

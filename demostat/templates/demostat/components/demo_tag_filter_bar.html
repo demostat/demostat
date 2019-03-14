@@ -5,7 +5,7 @@
   {% for tag in filter_tag %}
   <div class="btn-group">
     <a href="{% url 'demostat:tag' tag.slug %}" class="btn btn-success btn-sm">{{ tag.name }}</a>
-    <a href="{% tf_generate_qs_without tag tag=filter_tag org=filter_org %}" class="btn btn-success btn-sm">&times;</a>
+    <a href="{% tf_generate_qs_without_tag tag.slug tag=filter_tag org=filter_org %}" class="btn btn-success btn-sm">&times;</a>
   </div>
   {% endfor %}
   {% if filter_org %}
@@ -14,8 +14,6 @@
     <a href="{% tf_generate_qs tag=filter_tag %}" class="btn btn-success btn-sm">&times;</a>
   </div>
   {% endif %}
-  {% tf_generate_qs tag=filter_tag org=filter_org %}
-  {% tf_generate_qs_without 'fff' tag=filter_tag org=filter_org %}
 
 </section>
 {% endif %}
