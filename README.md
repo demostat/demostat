@@ -66,3 +66,12 @@ http://127.0.0.1:8000/
 
 Administration über:
 http://127.0.0.1:8000/admin/
+
+## Einstellungen
+
+Folgende Einstellungen für Demostat können in `settings.py` angepasst werden:
+```
+SITE_TITLE
+SITE_IMPRINT_URL
+SITE_PRIVACY_URL
+```
