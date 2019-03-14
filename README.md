@@ -68,7 +68,7 @@ urlpatterns = [
   ...
 ]
 ```
-Außerdem muss in `mysite/urls.py` in Zeile 17
+Außerdem muss in `mysite/urls.py` Zeile 17
 ```
 from django.urls import path
 ```
