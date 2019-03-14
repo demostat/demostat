@@ -51,7 +51,7 @@ class Demo(models.Model):
     note = models.TextField(blank=True)
     date = models.DateTimeField()
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def day(self):
         return self.date.date()
