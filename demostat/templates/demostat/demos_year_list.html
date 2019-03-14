@@ -8,6 +8,7 @@
 
 {% block content %}
 {% include "demostat/components/demo_tag_filter_bar.html" %}
+{% include "demostat/components/demos_year_pagination_bar.html" %}
 {% regroup demo_list|dictsort:"date" by month as demo_list_date %}
 <section>
   <div class="row">
@@ -24,4 +25,5 @@
 {% endfor %}
   </div>
 </section>
+{% include "demostat/components/demos_month_pagination_bar.html" %}
 {% endblock %}
