@@ -7,7 +7,7 @@ from django.utils.http import urlencode
 from django.conf import settings
 import datetime
 
-from .models import Organisation, Demo
+from .models import Organisation, Demo, Tag
 
 def make_context_object(context):
     s = {}
@@ -76,11 +76,20 @@ def demos_month(request, date__year, date__month):
     if not demo_list:
         raise Http404()
 
+    filter_tag_list = []
     if 'tag' in request.GET:
         demo_list = demo_list.filter(tags__slug__in=request.GET.getlist('tag'))
 
+        for tag in sorted(request.GET.getlist('tag')):
+            filter_tag_list.append(Tag.objects.get(slug=tag))
+
+    filter_org = {}
     if 'org' in request.GET:
         demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+
+        filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+
+    demo_list = demo_list.distinct()
 
     demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gte=date__year, date__month__gt=date__month).order_by('date').first()
@@ -90,8 +99,8 @@ def demos_month(request, date__year, date__month):
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter_tag': filter_tag_list,
+        'filter_org': filter_org,
     }))
 
 def demos_day(request, date__year, date__month, date__day):
@@ -116,18 +125,10 @@ def OrganisationView(request, slug):
     }))
 
 def tag(request, tag_slug):
-    demo_list = get_list_or_404(Demo, tags__slug__exact=tag_slug, date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4))
-    tag_name = tag_slug
-
-    for tag in demo_list[0].tags.all():
-        if tag.slug == tag_slug:
-            tag_name = tag.name
-            break
+    tag = get_object_or_404(Tag, slug=tag_slug)
 
     return render(request, 'demostat/tag_detail.html', make_context_object({
-        'tag_slug': tag_slug,
-        'tag_name': tag_name,
-        'demo_list': demo_list
+        'tag': tag,
     }))
 
 def AboutView(request):
