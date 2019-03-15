@@ -1,4 +1,5 @@
 {% extends "demostat/base.html" %}
+{% load demostat_tag_filter %}
 
 {% block title %}Demos {{ date|date:"Y" }}{% endblock %}
 
@@ -18,7 +19,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ month|date:"F" }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ demos|length}} Demo{% if demos|length > 1 %}s{% endif %}</h6>
-          <a href="{% url 'demostat:demos_month' date|date:"Y" month|date:"m" %}{% if filter_org %}?org={{ filter_org.slug }}{% endif %}" class="btn btn-primary card-link">Mehr Details</a>
+          <a href="{% url 'demostat:demos_month' date|date:"Y" month|date:"m" %}{% tf_generate_qs tag=filter_tag org=filter_org %}" class="btn btn-primary card-link">Mehr Details</a>
         </div>
       </div>
     </div>
