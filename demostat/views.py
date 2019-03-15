@@ -37,18 +37,39 @@ def IndexView(request):
     }))
 
 def demos(request):
-    demo_list = get_list_or_404(Demo)
+    demo_list = Demo.objects.all().order_by('date')
 
+    if not demo_list:
+        raise Http404()
+
+    filter_tag_list = []
+    filter_tag_list_slugs = []
     if 'tag' in request.GET:
-        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
+        for tag in sorted(request.GET.getlist('tag')):
+            try:
+                tag = Tag.objects.get(slug=tag)
+                filter_tag_list.append(tag)
+                filter_tag_list_slugs.append(tag.slug)
+            except:
+                pass
 
+
+        if filter_tag_list:
+            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
+
+    filter_org = {}
     if 'org' in request.GET:
-        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
+        try:
+            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
+        except:
+            pass
+        else:
+            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
 
     return render(request, 'demostat/demos_list.html', make_context_object({
         'demo_list': demo_list,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter_tag': filter_tag_list,
+        'filter_org': filter_org,
     }))
 
 def demos_year(request, date__year):
