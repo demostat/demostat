@@ -49,6 +49,9 @@
   {% if demo.location.lat and demo.location.lon %}
   <div class="card ">
     <div class="embed-responsive embed-responsive-16by9">
+      <div class="clickoverlay embed-responsive-item">
+        <p class="text-center">Klicken um die Karte freizuschalten</p>
+      </div>
       <iframe class="embed-responsive-item" src="https://www.openstreetmap.org/export/embed.html?bbox={{ demo.location.box_left }}%2C{{ demo.location.box_bottom }}%2C{{ demo.location.box_right }}%2C{{ demo.location.box_top }}&amp;layer=mapnik&amp;marker={{ demo.location.marker_lat }}%2C{{ demo.location.marker_lon }}"></iframe>
     </div>
     <div class="list-group list-group-flush">
