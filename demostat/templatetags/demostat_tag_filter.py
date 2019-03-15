@@ -4,6 +4,11 @@ from ..utils import Querystring
 register = template.Library()
 
 def tag_dict_to_array(dict):
+    if "org" in dict:
+        if dict["org"] == {}:
+            dict.pop("org")
+        else:
+            dict["org"] = [dict["org"]]
     out = {}
     for tag, values in dict.items():
         out[tag] = []
