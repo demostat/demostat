@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.conf import settings
+from django.db.models import Q
 import datetime
 from .utils import Querystring
 
@@ -25,6 +26,12 @@ def make_context_object(context):
     except:
         pass
     return {**s, **context}
+
+def to_slug_array(dicts):
+    out = []
+    for dict in dicts:
+        out.append(dict.slug)
+    return out
 
 # Create your views here.
 def IndexView(request):
@@ -122,33 +129,39 @@ def demos_month(request, date__year, date__month):
     if not demo_list:
         raise Http404()
 
-    filter_tag_list = []
-    filter_tag_list_slugs = []
-    if 'tag' in request.GET:
-        for tag in sorted(request.GET.getlist('tag')):
+    #=== FILTER ===
+
+    filter = {}
+
+    if "tag" in request.GET:
+        filter["tag"] = []
+
+        for tag in sorted(request.GET.getlist("tag")):
             try:
                 tag = Tag.objects.get(slug=tag)
-                filter_tag_list.append(tag)
-                filter_tag_list_slugs.append(tag.slug)
+                filter["tag"].append(tag)
             except:
                 pass
 
+        if len(filter["tag"]):
+            demo_list = demo_list.filter(tags__slug__in=to_slug_array(filter["tag"]))
 
-        if filter_tag_list:
-            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
+    if "org" in request.GET:
+        filter["org"] = []
 
-    filter_org = {}
-    filter_org_slug = ""
-    if 'org' in request.GET:
-        try:
-            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
-            filter_org_slug = filter_org.slug
-        except:
-            pass
-        else:
-            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+        for org in sorted(request.GET.getlist("org")):
+            try:
+                org = Organisation.objects.get(slug=org)
+                filter["org"].append(org)
+            except:
+                pass
+
+        if len(filter["org"]):
+            demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
 
     demo_list = demo_list.distinct()
+
+    #=== FILTER ===
 
     demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gte=date__year, date__month__gt=date__month).order_by('date').first()
@@ -158,8 +171,7 @@ def demos_month(request, date__year, date__month):
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': filter_tag_list,
-        'filter_org': filter_org,
+        'filter': filter,
     }))
 
 def demos_day(request, date__year, date__month, date__day):
