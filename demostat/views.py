@@ -82,34 +82,15 @@ def demos(request):
     if not demo_list:
         raise Http404()
 
-    filter_tag_list = []
-    filter_tag_list_slugs = []
-    if 'tag' in request.GET:
-        for tag in sorted(request.GET.getlist('tag')):
-            try:
-                tag = Tag.objects.get(slug=tag)
-                filter_tag_list.append(tag)
-                filter_tag_list_slugs.append(tag.slug)
-            except:
-                pass
+    #=== FILTER ===
 
+    demo_list, filter = filter_it(demo_list, request.GET)
 
-        if filter_tag_list:
-            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
-
-    filter_org = {}
-    if 'org' in request.GET:
-        try:
-            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
-        except:
-            pass
-        else:
-            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+    #=== FILTER ===
 
     return render(request, 'demostat/demos_list.html', make_context_object({
         'demo_list': demo_list,
-        'filter_tag': filter_tag_list,
-        'filter_org': filter_org,
+        'filter': filter,
     }))
 
 def demos_year(request, date__year):
@@ -118,42 +99,21 @@ def demos_year(request, date__year):
     if not demo_list:
         raise Http404()
 
+    #=== FILTER ===
+
+    demo_list, filter = filter_it(demo_list, request.GET)
+
+    #=== FILTER ===
+
     demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
-
-    filter_tag_list = []
-    filter_tag_list_slugs = []
-    if 'tag' in request.GET:
-        for tag in sorted(request.GET.getlist('tag')):
-            try:
-                tag = Tag.objects.get(slug=tag)
-                filter_tag_list.append(tag)
-                filter_tag_list_slugs.append(tag.slug)
-            except:
-                pass
-
-
-        if filter_tag_list:
-            demo_list = demo_list.filter(tags__slug__in=filter_tag_list_slugs)
-
-    filter_org = {}
-    if 'org' in request.GET:
-        try:
-            filter_org = Organisation.objects.get(slug=request.GET.get('org'))
-        except:
-            pass
-        else:
-            demo_list = demo_list.filter(organisation__slug=request.GET['org'])
-
-
 
     return render(request, 'demostat/demos_year_list.html', make_context_object({
         'date': datetime.date(int(date__year), 1, 1),
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': filter_tag_list,
-        'filter_org': filter_org,
+        'filter': filter,
     }))
 
 def demos_month(request, date__year, date__month):
