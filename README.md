@@ -49,11 +49,10 @@ Demostat einbinden:
 ln -s ../demostat/demostat
 ```
 
-Füge in `mysite/settings.py` Demostat und seine Abhängigkeiten zu `INSTALLED_APPS` hinzu:
+Füge in `mysite/settings.py` Demostat zu `INSTALLED_APPS` hinzu:
 ```
 INSTALLED_APPS = [
   'demostat',
-  'taggit',
   ...
 ]
 ```

@@ -5,9 +5,11 @@ from django.views import generic
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.conf import settings
+from django.db.models import Q
 import datetime
+from .utils import Querystring
 
-from .models import Organisation, Demo
+from .models import Organisation, Demo, Tag
 
 def make_context_object(context):
     s = {}
@@ -25,6 +27,45 @@ def make_context_object(context):
         pass
     return {**s, **context}
 
+def to_slug_array(dicts):
+    out = []
+    for dict in dicts:
+        out.append(dict.slug)
+    return out
+
+def filter_it(demo_list, get):
+    filter = {}
+
+    if "tag" in get:
+        filter["tag"] = []
+
+        for tag in sorted(get.getlist("tag")):
+            try:
+                tag = Tag.objects.get(slug=tag)
+                filter["tag"].append(tag)
+            except:
+                pass
+
+        if len(filter["tag"]):
+            demo_list = demo_list.filter(tags__slug__in=to_slug_array(filter["tag"]))
+
+    if "org" in get:
+        filter["org"] = []
+
+        for org in sorted(get.getlist("org")):
+            try:
+                org = Organisation.objects.get(slug=org)
+                filter["org"].append(org)
+            except:
+                pass
+
+        if len(filter["org"]):
+            demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
+
+    demo_list = demo_list.distinct()
+
+    return demo_list, filter
+
 # Create your views here.
 def IndexView(request):
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
@@ -36,38 +77,43 @@ def IndexView(request):
     }))
 
 def demos(request):
-    demo_list = get_list_or_404(Demo)
+    demo_list = Demo.objects.all().order_by('date')
 
-    if 'tag' in request.GET:
-        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
+    if not demo_list:
+        raise Http404()
 
-    if 'org' in request.GET:
-        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
+    #=== FILTER ===
+
+    demo_list, filter = filter_it(demo_list, request.GET)
+
+    #=== FILTER ===
 
     return render(request, 'demostat/demos_list.html', make_context_object({
         'demo_list': demo_list,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter': filter,
     }))
 
 def demos_year(request, date__year):
-    demo_list = get_list_or_404(Demo, date__year=date__year)
+    demo_list = Demo.objects.filter(date__year=date__year).order_by('date')
+
+    if not demo_list:
+        raise Http404()
+
+    #=== FILTER ===
+
+    demo_list, filter = filter_it(demo_list, request.GET)
+
+    #=== FILTER ===
+
     demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
-
-    if 'tag' in request.GET:
-        demo_list = Demo.objects.filter(tags__slug__in=request.GET.getlist('tag'))
-
-    if 'org' in request.GET:
-        demo_list = Demo.objects.filter(organisation__slug=request.GET['org'])
 
     return render(request, 'demostat/demos_year_list.html', make_context_object({
         'date': datetime.date(int(date__year), 1, 1),
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter': filter,
     }))
 
 def demos_month(request, date__year, date__month):
@@ -76,11 +122,11 @@ def demos_month(request, date__year, date__month):
     if not demo_list:
         raise Http404()
 
-    if 'tag' in request.GET:
-        demo_list = demo_list.filter(tags__slug__in=request.GET.getlist('tag'))
+    #=== FILTER ===
 
-    if 'org' in request.GET:
-        demo_list = demo_list.filter(organisation__slug=request.GET['org'])
+    demo_list, filter = filter_it(demo_list, request.GET)
+
+    #=== FILTER ===
 
     demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
     demo_next = Demo.objects.filter(date__year__gte=date__year, date__month__gt=date__month).order_by('date').first()
@@ -90,8 +136,7 @@ def demos_month(request, date__year, date__month):
         'demo_list': demo_list,
         'demo_prev': demo_prev,
         'demo_next': demo_next,
-        'filter_tag': sorted(request.GET.getlist('tag')),
-        'filter_org': request.GET.get('org'),
+        'filter': filter,
     }))
 
 def demos_day(request, date__year, date__month, date__day):
@@ -111,23 +156,20 @@ def demo_id(request, demo_id):
 
 def OrganisationView(request, slug):
     organisation = get_object_or_404(Organisation, slug=slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), organisation__slug=slug).order_by('date')
+
     return render(request, 'demostat/organisation_detail.html', make_context_object({
         'organisation': organisation,
+        'demo_list': demo_list,
     }))
 
 def tag(request, tag_slug):
-    demo_list = get_list_or_404(Demo, tags__slug__exact=tag_slug, date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4))
-    tag_name = tag_slug
-
-    for tag in demo_list[0].tags.all():
-        if tag.slug == tag_slug:
-            tag_name = tag.name
-            break
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), tags__slug=tag_slug).order_by('date')
 
     return render(request, 'demostat/tag_detail.html', make_context_object({
-        'tag_slug': tag_slug,
-        'tag_name': tag_name,
-        'demo_list': demo_list
+        'tag': tag,
+        'demo_list': demo_list,
     }))
 
 def AboutView(request):

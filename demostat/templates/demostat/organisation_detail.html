@@ -14,7 +14,7 @@
 {% if organisation.url %}
   <a class="btn btn-primary" href="{{ organisation.url }}" title="{{ organisation.url }}">Mehr Informationen</a>
 {% endif %}
-{% include "demostat/components/demo_card_list.html" with demo_list=organisation.demo_set.all %}
+{% include "demostat/components/demo_card_list.html" %}
 <section>
   <a href="{% url 'demostat:demos' %}?org={{ organisation.slug }}" class="btn btn-outline-primary btn-block">weitere Demos von {{ organisation.name }}</a>
 </section>
