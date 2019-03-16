@@ -40,7 +40,7 @@ footer a {
 }
 
 .clickoverlay {
-  z-index: 999999999 !important;
+  z-index: 990 !important;
   width: 101%;
   height: 101%;
   color: rgba(0, 0, 0, 0);
