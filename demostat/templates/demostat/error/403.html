@@ -1,0 +1,17 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Verboten{% endblock %}
+
+{% block header %}
+<h1 class="display-1">403 - Verboten</h1>
+{% endblock%}
+
+{% block content %}
+<section>
+  <h3>Hi, schön dass du hier bist!</h3>
+  <p>Du versuchts ohne entsprechende Befugnisse auf geheime Bereiche zuzugreifen. Ganz dünnes Eis! Am besten du schaust dich mal im <a href="{% url 'demostat:demos' %}">Archiv</a> um, das sollte für dich verfügbar sein. Ansonsten können wir dir nur die <a href="{% url 'demostat:index' %}">Startseite</a> empfehlen.</p>
+</section>
+<section>
+  <a href="{% url 'demostat:index' %}" class="btn btn-outline-primary btn-block">zur Startseite</a>
+</section>
+{% endblock %}

@@ -2,6 +2,11 @@ from django.urls import path, re_path
 
 from . import views
 
+handler400 = 'demostat.views.handler400'
+handler403 = 'demostat.views.handler403'
+handler404 = 'demostat.views.handler404'
+handler500 = 'demostat.views.handler500'
+
 app_name = 'demostat'
 urlpatterns = [
     path('', views.IndexView, name='index'),

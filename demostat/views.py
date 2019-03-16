@@ -174,3 +174,17 @@ def tag(request, tag_slug):
 
 def AboutView(request):
     return render(request, 'demostat/about.html', make_context_object({}))
+
+#=== ERROR Pages ===
+
+def handler400(request):
+    return render(request, 'demostat/error/400.html', make_context_object({}))
+
+def handler403(request):
+    return render(request, 'demostat/error/403.html', make_context_object({}))
+
+def handler404(request):
+    return render(request, 'demostat/error/404.html', make_context_object({}))
+
+def handler500(request):
+    return render(request, 'demostat/error/500.html', make_context_object({}))

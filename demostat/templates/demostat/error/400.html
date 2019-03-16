@@ -1,0 +1,17 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Schlechte Frage{% endblock %}
+
+{% block header %}
+<h1 class="display-1">400 - Schlechte Frage</h1>
+{% endblock%}
+
+{% block content %}
+<section>
+  <h3>Hi, schön dass du hier bist!</h3>
+  <p>Anscheinen sprechen wir nicht die gleiche Sprache. Probiere es beitte noch einmal. Ansonsten können wir dir nur die <a href="{% url 'demostat:index' %}">Startseite</a> empfehlen.</p>
+</section>
+<section>
+  <a href="{% url 'demostat:index' %}" class="btn btn-outline-primary btn-block">zur Startseite</a>
+</section>
+{% endblock %}

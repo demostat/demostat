@@ -1,0 +1,17 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Server fehler{% endblock %}
+
+{% block header %}
+<h1 class="display-1">500 - Server fehler</h1>
+{% endblock%}
+
+{% block content %}
+<section>
+  <h3>Hi, schön dass du hier bist!</h3>
+  <p>Dummerweise hat der Server schluckauf und hat sich verhaspelt. Versuche es nochmal. Ansonsten können wir dir nur die <a href="{% url 'demostat:index' %}">Startseite</a> empfehlen.</p>
+</section>
+<section>
+  <a href="{% url 'demostat:index' %}" class="btn btn-outline-primary btn-block">zur Startseite</a>
+</section>
+{% endblock %}

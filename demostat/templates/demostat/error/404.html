@@ -1,0 +1,17 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Nicht gefunden{% endblock %}
+
+{% block header %}
+<h1 class="display-1">404 - Nicht gefunden</h1>
+{% endblock%}
+
+{% block content %}
+<section>
+  <h3>Hi, schön dass du hier bist!</h3>
+  <p>Die Seite, die du aufrufen möchtest, ist leider nicht oder nicht mehr über diese Adresse erreichbar. Schau am besten mal im <a href="{% url 'demostat:demos' %}">Archiv</a>, ob du fündig wirst. Ansonsten können wir dir nur die <a href="{% url 'demostat:index' %}">Startseite</a> empfehlen.</p>
+</section>
+<section>
+  <a href="{% url 'demostat:demos' %}" class="btn btn-outline-primary btn-block">zum Archiv</a>
+</section>
+{% endblock %}
