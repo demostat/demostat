@@ -33,6 +33,39 @@ def to_slug_array(dicts):
         out.append(dict.slug)
     return out
 
+def filter_it(demo_list, get):
+    filter = {}
+
+    if "tag" in get:
+        filter["tag"] = []
+
+        for tag in sorted(get.getlist("tag")):
+            try:
+                tag = Tag.objects.get(slug=tag)
+                filter["tag"].append(tag)
+            except:
+                pass
+
+        if len(filter["tag"]):
+            demo_list = demo_list.filter(tags__slug__in=to_slug_array(filter["tag"]))
+
+    if "org" in get:
+        filter["org"] = []
+
+        for org in sorted(get.getlist("org")):
+            try:
+                org = Organisation.objects.get(slug=org)
+                filter["org"].append(org)
+            except:
+                pass
+
+        if len(filter["org"]):
+            demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
+
+    demo_list = demo_list.distinct()
+
+    return demo_list, filter
+
 # Create your views here.
 def IndexView(request):
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
@@ -131,35 +164,7 @@ def demos_month(request, date__year, date__month):
 
     #=== FILTER ===
 
-    filter = {}
-
-    if "tag" in request.GET:
-        filter["tag"] = []
-
-        for tag in sorted(request.GET.getlist("tag")):
-            try:
-                tag = Tag.objects.get(slug=tag)
-                filter["tag"].append(tag)
-            except:
-                pass
-
-        if len(filter["tag"]):
-            demo_list = demo_list.filter(tags__slug__in=to_slug_array(filter["tag"]))
-
-    if "org" in request.GET:
-        filter["org"] = []
-
-        for org in sorted(request.GET.getlist("org")):
-            try:
-                org = Organisation.objects.get(slug=org)
-                filter["org"].append(org)
-            except:
-                pass
-
-        if len(filter["org"]):
-            demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
-
-    demo_list = demo_list.distinct()
+    demo_list, filter = filter_it(demo_list, request.GET)
 
     #=== FILTER ===
 
