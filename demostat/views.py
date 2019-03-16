@@ -156,15 +156,23 @@ def demo_id(request, demo_id):
 
 def OrganisationView(request, slug):
     organisation = get_object_or_404(Organisation, slug=slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), organisation__slug=slug).order_by('date')
+
     return render(request, 'demostat/organisation_detail.html', make_context_object({
         'organisation': organisation,
+        'demo_list': demo_list,
     }))
 
 def tag(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), tags__slug=tag_slug).order_by('date')
+
+    if not demo_list:
+        raise Http404()
 
     return render(request, 'demostat/tag_detail.html', make_context_object({
         'tag': tag,
+        'demo_list': demo_list,
     }))
 
 def AboutView(request):
