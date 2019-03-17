@@ -183,6 +183,4 @@ def tag(request, tag_slug):
     }))
 
 def AboutView(request):
-    return render(request, 'demostat/about.html', make_context_object({
-        'version': version,
-    }))
+    return render(request, 'demostat/about.html', make_context_object({}))
