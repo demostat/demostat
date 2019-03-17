@@ -22,8 +22,8 @@ import demostat
 # -- Project information -----------------------------------------------------
 
 project = 'Demostat'
-copyright = '2019, Moritz Fromm & Clemens Riese'
-author = 'Moritz Fromm & Clemens Riese'
+copyright = '2019 Clemens Riese & Moritz Fromm'
+author = 'Clemens Riese & Moritz Fromm'
 
 # The short X.Y version
 version = demostat.version
@@ -132,7 +132,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Demostat.tex', 'Demostat Documentation',
-     'Moritz Fromm \\& Clemens Riese', 'manual'),
+     'Clemens Riese \\& Moritz Fromm', 'manual'),
 ]
 
 

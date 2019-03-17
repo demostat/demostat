@@ -18,7 +18,7 @@ Wer steckt hinter der Demo? Auch das lässt sich ganz einfach herausfinden. Zu j
 
 Entwicklung
 ===========
-Entwickelt wird Demostat von Moritz und Clemens auf GitHub:
+Entwickelt wird Demostat von Clemens und Moritz auf GitHub:
 
 - `GitHub <https://github.com/demostat/demostat>`_
 
