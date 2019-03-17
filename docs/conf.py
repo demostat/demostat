@@ -28,7 +28,7 @@ author = 'Clemens Riese & Moritz Fromm'
 # The short X.Y version
 version = demostat.version
 # The full version, including alpha/beta/rc tags
-release = demostat.version
+release = demostat.release
 
 
 # -- General configuration ---------------------------------------------------
