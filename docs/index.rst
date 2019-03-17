@@ -22,10 +22,10 @@ Entwickelt wird Demostat von Moritz und Clemens auf GitHub:
 
 - `GitHub <https://github.com/demostat/demostat>`_
 
-:Moritz Fromm:
-    - https://moritz-fromm.de
-    - https://chaos.social/@frommMoritz
-
 :Clemens Riese:
     - https://clerie.de
     - https://chaos.social/@clerie
+
+:Moritz Fromm:
+    - https://moritz-fromm.de
+    - https://chaos.social/@frommMoritz
