@@ -5,6 +5,9 @@ Willkommen zu Demostat!
    :maxdepth: 2
    :caption: Contents:
 
+   deploy
+   conf
+
 Über
 ====
 

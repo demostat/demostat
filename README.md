@@ -27,67 +27,6 @@ Jeder Demo wir ein Ort und eine Organisation zugeordnet. Neben Name und kurzer B
 Jede Organisation hat einen Namen, eine kurze Beschreibung und einen Link zur Homepage.
 
 ## Installation
-### Eigenständige Entwicklungsversion
-Demostat Entwicklungsversion herunterladen:
-```
-git clone -b dev https://github.com/demostat/demostat.git
-```
-
-Abhängigkeiten installieren:
-```
-pip3 install -r demostat/requirements.txt
-```
-
-Neues Django Projekt starten:
-```
-django-admin startproject mysite
-cd mysite
-```
-
-Demostat einbinden:
-```
-ln -s ../demostat/demostat
-```
-
-Füge in `mysite/settings.py` Demostat zu `INSTALLED_APPS` hinzu:
-```
-INSTALLED_APPS = [
-  'demostat',
-  ...
-]
-```
-Beachte, dass Django-Admin ebenfalls geladen wird. (In der Standartinstallation sollte das schon geschehen sein)
-
-Binde in `mysite/urls.py` Demostat-Urls ein:
-```
-from django.urls import include
-
-urlpatterns = [
-  path('', include('demostat.urls')),
-  ...
-]
-```
-
-Datenbank-Migrieren:
-```
-python3 manage.py migrate
-```
-
-Erstelle Administrationsaccount:
-```
-python3 manage.py createsuperuser
-```
-
-Starte Webserver:
-```
-python3 manage.py runserver
-```
-
-Website ist erreichbar über:
-http://127.0.0.1:8000/
-
-Administration über:
-http://127.0.0.1:8000/admin/
 
 ## Live Betrieb
 
@@ -220,23 +159,6 @@ systemctl reload apache2
 ```bash
 systemctl reload apache2
 ```
-
-## Konfigurationen
-Es ist möglich Demostat über Variablen in `mysite/settings.py` zu konfigurieren.
-
-Alle Angaben sind Optional. Entweder haben werden sie durch Vorbelegungen ersetzt oder einfach nicht angzeigt.
-
-### String `SITE_TITLE`
-Wird als Titel im Header und der Navigation genutzt.
-```
-SITE_TITLE = "Demos in Erfurt"
-```
-
-### Url `SITE_IMPRINT_URL`
-Url zum Impressum, wird im Footer angezeigt.
-
-### Url `SITE_PRIVACY_URL`
-Url zur Datenschutzerklärung, wird im Footer angezeigt.
 
 ## Lizenz
 Diese Software hat **noch** keine Lizenz. Das bedeutet, dass das deutsche Urherberrecht gilt.
