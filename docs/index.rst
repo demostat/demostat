@@ -2,11 +2,11 @@ Willkommen zu Demostat!
 =======================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+    :caption: Contents:
 
-   deploy
-   conf
+    deploy
+    conf
 
 Über
 ====
