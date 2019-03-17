@@ -17,10 +17,9 @@ setup(
     license='', # We dont have a lincense at this time
     description='Status page for scheduled political demonstrations',
     long_description=README,
-    long_description_content_type="text/markdown",
     url='https://demostat.de/',
-    author='Clemens Riese',
-    author_email='hallo@clerie.de',
+    author='The Demostat Community',
+    author_email='hallo@demostat.de',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
