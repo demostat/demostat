@@ -1,0 +1,16 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Anstehende Demos{% endblock %}
+
+{% block header %}
+<h1 class="display-1">Demos in Erfurt</h1>
+{% endblock%}
+
+{% block content %}
+{% include "demostat/components/demo_card_list.html" with demo_list=demo_list%}
+{% if demo_next %}
+<section>
+  <a href="{% url 'demostat:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}#{{ demo_next.date|date:"d" }}" class="btn btn-outline-primary btn-block">weitere Demos</a>
+</section>
+{% endif %}
+{% endblock %}

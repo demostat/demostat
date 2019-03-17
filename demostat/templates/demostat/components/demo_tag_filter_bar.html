@@ -1,0 +1,18 @@
+{% load demostat_tag_filter %}
+
+{% if filter %}
+<section>
+  {% for tag in filter.tag %}
+  <div class="btn-group">
+    <a href="{% url 'demostat:tag' tag.slug %}" class="btn btn-success btn-sm">{{ tag.name }}</a>
+    <a href="{% tf_generate_qs_without 'tag' tag.slug filter %}" class="btn btn-success btn-sm">&times;</a>
+  </div>
+  {% endfor %}
+  {% for org in filter.org %}
+  <div class="btn-group">
+    <a href="{% url 'demostat:organisation' org.slug %}" class="btn btn-success btn-sm">{{ org.name }}</a>
+    <a href="{% tf_generate_qs_without 'org' org.slug filter %}" class="btn btn-success btn-sm">&times;</a>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}

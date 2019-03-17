@@ -1,0 +1,14 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Demos im {{ date|date:"F" }} {{ date|date:"Y" }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Demos im {{ date|date:"F" }} {{ date|date:"Y" }}</h1>
+{% endblock%}
+
+{% block content %}
+{% include "demostat/components/demo_tag_filter_bar.html" %}
+{% include "demostat/components/demos_month_pagination_bar.html" %}
+{% include "demostat/components/demo_card_list.html" %}
+{% include "demostat/components/demos_month_pagination_bar.html" %}
+{% endblock %}

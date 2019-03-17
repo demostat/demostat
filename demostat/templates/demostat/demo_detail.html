@@ -1,0 +1,94 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}</h1>
+<section class="tags">
+  <span class="h3">
+    {% for tag in demo.tags.all %}<a href="{% url 'demostat:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
+  </span>
+</section>
+{% endblock%}
+
+{% block content %}
+<section>
+  <div class="card-group">
+    <div class="card {% if demo.is_next %} border-success {% endif %}">
+      <div class="card-body">
+        <h5 class="card-title">Wann?</h5>
+        <p class="card-text">{{ demo.date|date:"d.m.Y H:i" }} Uhr</p>
+      </div>
+    </div>
+    <div class="card {% if demo.is_next %} border-success {% endif %}">
+      <div class="card-body">
+        <h5 class="card-title">Wo?</h5>
+        <p class="card-text">{{ demo.location.name }}</p>
+      </div>
+    </div>
+    <div class="card {% if demo.is_next %} border-success {% endif %}">
+      <div class="card-body">
+        <h5 class="card-title">Wer?</h5>
+        <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Was?</h5>
+      <p class="card-text">{{ demo.description }}</p>
+    </div>
+  </div>
+  {% if demo.link_set.all %}
+  <div class="list-group list-group-horizontal-md text-center">
+    {% for link in demo.link_set.all|slice:":4" %}
+    <a href="{{ link.url }}" class="list-group-item flex-fill" target="_blank">{{ link.title }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if demo.location.lat and demo.location.lon %}
+  <div class="card ">
+    <div class="embed-responsive embed-responsive-16by9">
+      <div class="clickoverlay embed-responsive-item">
+        <p class="text-center">Klicken um die Karte freizuschalten</p>
+      </div>
+      <iframe class="embed-responsive-item" src="https://www.openstreetmap.org/export/embed.html?bbox={{ demo.location.box_left }}%2C{{ demo.location.box_bottom }}%2C{{ demo.location.box_right }}%2C{{ demo.location.box_top }}&amp;layer=mapnik&amp;marker={{ demo.location.marker_lat }}%2C{{ demo.location.marker_lon }}"></iframe>
+    </div>
+    <div class="list-group list-group-flush">
+      <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=17/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
+    </div>
+  </div>
+  {% endif %}
+  {% if demo.link_set.all %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Links</h5>
+    </div>
+    <div class="list-group list-group-flush">
+      {% for link in demo.link_set.all %}
+      <a href="{{ link.url }}" class="list-group-item" target="_blank">{{ link.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% if demo.note %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Anmerkungen</h5>
+      <p class="card-text">{{ demo.note }}</p>
+    </div>
+  </div>
+  {% endif %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Teilen</h5>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Permalink</span>
+        </div>
+        <input class="form-control" type="text" placeholder="Permalink" value="https://{{ request.get_host }}{% url 'demostat:demo_id' demo.pk %}" readonly>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "demostat/base.html" %}
+{% load demostat_tag_filter %}
+
+{% block title %}Demos {{ date|date:"Y" }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Demos {{ date|date:"Y" }}</h1>
+{% endblock%}
+
+{% block content %}
+{% include "demostat/components/demo_tag_filter_bar.html" %}
+{% include "demostat/components/demos_year_pagination_bar.html" %}
+{% regroup demo_list|dictsort:"date" by month as demo_list_date %}
+{% if demo_list_date %}
+<section>
+  <div class="row">
+    {% for month, demos in demo_list_date %}
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ month|date:"F" }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ demos|length}} Demo{% if demos|length > 1 %}s{% endif %}</h6>
+          <a href="{% url 'demostat:demos_month' date|date:"Y" month|date:"m" %}{% tf_generate_qs filter %}" class="btn btn-primary card-link">Mehr Details</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% else %}
+<section>
+  <div class="alert alert-primary">
+    Leider keine Demos zum anzeigen.
+  </div>
+</section>
+{% endif %}
+{% include "demostat/components/demos_year_pagination_bar.html" %}
+{% endblock %}

@@ -1,22 +1,17 @@
-"""demostat URL Configuration
+from django.urls import path, re_path
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import include, path
+from . import views
 
+app_name = 'demostat'
 urlpatterns = [
-    path('', include('demostatapp.urls')),
-    path('admin/', admin.site.urls),
+    path('', views.IndexView, name='index'),
+    path('about/', views.AboutView, name='about'),
+    path('d/<int:demo_id>/', views.demo_id, name='demo_id'),
+    path('demo/', views.demos, name='demos'),
+    re_path(r'^demo/(?P<date__year>[0-9]{4})/$', views.demos_year, name='demos_year'),
+    re_path(r'^demo/(?P<date__year>[0-9]{4})/(?P<date__month>[0-9]{2})/$', views.demos_month, name='demos_month'),
+    re_path(r'^demo/(?P<date__year>[0-9]{4})/(?P<date__month>[0-9]{2})/(?P<date__day>[0-9]{2})/$', views.demos_day, name='demo_day'),
+    re_path(r'^demo/(?P<date__year>[0-9]{4})/(?P<date__month>[0-9]{2})/(?P<date__day>[0-9]{2})/(?P<slug>[\w-]+)/$', views.demo, name='demo'),
+    path('organisation/<slug:slug>/', views.OrganisationView, name='organisation'),
+    path('tag/<slug:tag_slug>/', views.tag, name='tag'),
 ]

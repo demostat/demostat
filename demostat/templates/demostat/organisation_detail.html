@@ -1,0 +1,21 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Demos von {{ organisation.name }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Demos von {{ organisation.name }}</h1>
+{% endblock%}
+
+{% block content %}
+<br>
+{% if organisation.description %}
+  <p>{{ organisation.description }}</p>
+{% endif %}
+{% if organisation.url %}
+  <a class="btn btn-primary" href="{{ organisation.url }}" title="{{ organisation.url }}">Mehr Informationen</a>
+{% endif %}
+{% include "demostat/components/demo_card_list.html" %}
+<section>
+  <a href="{% url 'demostat:demos' %}?org={{ organisation.slug }}" class="btn btn-outline-primary btn-block">weitere Demos von {{ organisation.name }}</a>
+</section>
+{% endblock %}

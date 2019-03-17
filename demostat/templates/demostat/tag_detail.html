@@ -1,0 +1,14 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}{{ tag.name }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">{{ tag.name }}</h1>
+{% endblock%}
+
+{% block content %}
+{% include "demostat/components/demo_card_list.html" %}
+<section>
+  <a href="{% url 'demostat:demos' %}?tag={{ tag.slug }}" class="btn btn-outline-primary btn-block">weitere Demos</a>
+</section>
+{% endblock %}

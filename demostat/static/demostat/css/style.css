@@ -1,0 +1,70 @@
+/* IE */
+main {
+  display:block;
+}
+
+header {
+  margin: 3em 0;
+}
+
+header h1 {
+  text-align: center;
+  padding: 1em 0;
+}
+
+header section {
+  margin: 3em 0;
+}
+
+header section.tags {
+  text-align: center;
+}
+
+main section {
+  margin: 3em 0;
+}
+
+main section .card {
+  margin: 1em 0;
+}
+
+
+
+footer {
+  text-align: center;
+  padding: 3em 0;
+}
+
+footer a {
+  margin: 1em;
+}
+
+.clickoverlay {
+  z-index: 990 !important;
+  width: 101%;
+  height: 101%;
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  -webkit-transition: background-color .2s ease-in-out, color .2s ease-in-out;
+       -o-transition: background-color .2s ease-in-out, color .2s ease-in-out;
+          transition: background-color .2s ease-in-out, color .2s ease-in-out;
+}
+
+.clickoverlay > p {
+  /* https://stackoverflow.com/a/5703632 */
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); 
+  -moz-user-select: none; 
+       user-select: none;
+  -ms-touch-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+.clickoverlay:hover {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,19 @@
+{% load demostat_tag_filter %}
+
+<section>
+  <div class="row">
+    <div class="col-4 text-left">
+      {% if demo_prev %}
+      <a href="{% url 'demostat:demos_year' demo_prev.date|date:"Y"%}{% tf_generate_qs filter %}" class="btn btn-outline-primary">❮ {{ demo_prev.date|date:"Y" }}</a>
+      {% endif %}
+    </div>
+    <div class="col-4 text-center">
+      <a href="{% url 'demostat:demos' %}{% tf_generate_qs filter %}" class="btn btn-outline-primary">Archiv</a>
+    </div>
+    <div class="col-4 text-right">
+      {% if demo_next %}
+      <a href="{% url 'demostat:demos_year' demo_next.date|date:"Y" %}{% tf_generate_qs filter %}" class="btn btn-outline-primary">{{ demo_next.date|date:"Y" }} ❯</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+{% if demo_list %}
+{% regroup demo_list|dictsort:"date" by day as demo_list_date %}
+
+{% now "d.m.Y" as today %}
+
+{% for day, demos in demo_list_date %}
+<section id="{{ day|date:"d" }}">
+  <h3 class="title">{% if day|date:"d.m.Y" == today %}Heute{% else %}{{ day|date:"l, d.m.Y" }}{% endif %}</h3>
+  {% for demo in demos %}
+  {% include "demostat/components/demo_card.html" %}
+  {% endfor %}
+</section>
+{% endfor %}
+{% else %}
+<section>
+  <div class="alert alert-primary">
+    Leider keine Demos zum anzeigen.
+  </div>
+</section>
+{% endif %}

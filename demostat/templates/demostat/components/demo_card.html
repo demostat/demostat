@@ -1,0 +1,11 @@
+<div class="card {% if demo.is_next %} border-success {% endif %}">
+  <div class="card-body">
+    <h5 class="card-title">{{ demo.title }} <small class="text-muted">von <a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></small></h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ demo.date|date:"d.m.Y H:i" }} Uhr, {{ demo.location.name }}</h6>
+    <p class="card-text">{{ demo.description }}</p>
+    <p>
+      {% for tag in demo.tags.all %}<a href="{% url 'demostat:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
+    </p>
+    <a href="{% url 'demostat:demo' demo.date|date:"Y" demo.date|date:"m" demo.date|date:"d" demo.slug %}" class="btn btn-primary card-link">Mehr Details</a> {% for link in demo.link_set.all|slice:":4" %}<a href="{{ link.url }}" class="card-link">{{ link.title }}</a> {% endfor %}
+  </div>
+</div>
