@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db.models import Q
 import datetime
 from .utils import Querystring
-
+from . import version
 from .models import Organisation, Demo, Tag
 
 def make_context_object(context):
@@ -173,4 +173,6 @@ def tag(request, tag_slug):
     }))
 
 def AboutView(request):
-    return render(request, 'demostat/about.html', make_context_object({}))
+    return render(request, 'demostat/about.html', make_context_object({
+        'version': version,
+    }))
