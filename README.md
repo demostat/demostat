@@ -3,7 +3,7 @@ Statusseite für als nächstes anstehende Demonstrationen in Erfurt.
 
 > Die Software steckt noch in der tiefsten Anfangsphase und ist extrem unvollständig! (Das hält hier aber keinen davon ab, sie trotzdem zu nutzen :P)
 
-![Screenshot Demo Detail](docs/screenshot-demo-detail.png)
+![Screenshot Demo Detail](docs/images/screenshot-demo-detail.png)
 
 > Wie, gestern war wieder eine Demo? Warum weiß ich davon nix?
 
