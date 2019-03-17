@@ -1,2 +1,2 @@
 name = "demostat"
-version = "0.0.0-dev"
+version = "0.1.0"
