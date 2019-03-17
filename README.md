@@ -26,8 +26,19 @@ Jeder Demo wir ein Ort und eine Organisation zugeordnet. Neben Name und kurzer B
 ### Organisation
 Jede Organisation hat einen Namen, eine kurze Beschreibung und einen Link zur Homepage.
 
-## Installation
+## Dokumentation & Installation
 
+https://docs.demostat.de
+
+### Selber bauen
+
+```
+pip3 install sphinx
+cd docs/
+make html
+```
+
+Die fertigen HTML sind dann unter `docs/_build/html/` verfügbar.
 
 ## Lizenz
 Diese Software hat **noch** keine Lizenz. Das bedeutet, dass das deutsche Urherberrecht gilt.
