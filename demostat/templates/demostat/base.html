@@ -51,6 +51,7 @@
         {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}" target="_blank">Impressum</a>{% endif %}
         {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}" target="_blank">Datenschutz</a>{% endif %}
         <a href="https://github.com/demostat/demostat" target="_blank">Quellcode auf GitHub</a>
+        {% if DEMOSTAT_DEVELOP %}<span class="badge badge-danger">{{ DEMOSTAT_RELEASE }}</span>{% endif %}
       </div>
     </footer>
 
