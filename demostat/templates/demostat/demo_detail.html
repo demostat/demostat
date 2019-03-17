@@ -36,62 +36,61 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-12 col-md-8">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Was?</h5>
           <p class="card-text">{{ demo.description | linebreaks }}</p>
         </div>
       </div>
+      <div class="d-block d-md-none">
+        {% if demo.link_set.all %}
+        <div class="list-group list-group-horizontal-md text-center">
+          {% for link in demo.link_set.all|slice:":4" %}
+          <a href="{{ link.url }}" class="list-group-item flex-fill" target="_blank">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
     </div>
-    <div class="col-12">
+    <div class="col-12 col-md-4">
+    {% if demo.location.lat and demo.location.lon %}
+    <div class="card">
+      <div class="embed-responsive embed-responsive-16by9">
+        <div class="clickoverlay embed-responsive-item">
+          <p class="text-center">Klicken um die Karte freizuschalten</p>
+        </div>
+        <iframe class="embed-responsive-item" src="https://www.openstreetmap.org/export/embed.html?bbox={{ demo.location.box_left }}%2C{{ demo.location.box_bottom }}%2C{{ demo.location.box_right }}%2C{{ demo.location.box_top }}&amp;layer=mapnik&amp;marker={{ demo.location.marker_lat }}%2C{{ demo.location.marker_lon }}"></iframe>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=17/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+    <div class="col-12 col-md-8">
+    {% if demo.note %}
+      <div class="card">
+        <div class="card-body">
+        <h5 class="card-title">Anmerkungen</h5>
+        <p class="card-text">{{ demo.note | linebreaks }}</p>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+    <div class="col-12 col-md-4">
       {% if demo.link_set.all %}
-      <div class="list-group list-group-horizontal-md text-center">
-        {% for link in demo.link_set.all|slice:":4" %}
-        <a href="{{ link.url }}" class="list-group-item flex-fill" target="_blank">{{ link.title }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 col-md-6">
-          {% if demo.location.lat and demo.location.lon %}
-          <div class="card ">
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="https://www.openstreetmap.org/export/embed.html?bbox={{ demo.location.box_left }}%2C{{ demo.location.box_bottom }}%2C{{ demo.location.box_right }}%2C{{ demo.location.box_top }}&amp;layer=mapnik&amp;marker={{ demo.location.marker_lat }}%2C{{ demo.location.marker_lon }}"></iframe>
-            </div>
-            <div class="list-group list-group-flush">
-              <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=17/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
-            </div>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Links</h5>
           </div>
-          {% endif %}
-          {% if demo.link_set.all %}
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Links</h5>
-            </div>
-            <div class="list-group list-group-flush">
-              {% for link in demo.link_set.all %}
-              <a href="{{ link.url }}" class="list-group-item" target="_blank">{{ link.title }}</a>
-              {% endfor %}
-            </div>
+          <div class="list-group list-group-flush">
+            {% for link in demo.link_set.all %}
+            <a href="{{ link.url }}" class="list-group-item" target="_blank">{{ link.title }}</a>
+            {% endfor %}
           </div>
-          {% endif %}
         </div>
-        <div class="col-12 col-md-6">
-          {% if demo.note %}
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Anmerkungen</h5>
-              <p class="card-text">{{ demo.note | linebreaks }}</p>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
+        {% endif %}
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Teilen</h5>
