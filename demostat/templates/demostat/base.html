@@ -9,8 +9,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'demostat/bootstrap/css/bootstrap.min.css' %}">
-
     <link rel="stylesheet" href="{% static 'demostat/demostat/css/style.css' %}">
+    {% block css %}
+    {% endblock %}
 
     <title>{% block title %}{% endblock %} | {% if SITE_TITLE %}{{ SITE_TITLE }}{% else %}Demostat{% endif %}</title>
   </head>
@@ -60,5 +61,7 @@
     <script src="{% static 'demostat/jquery/js/jquery.slim.min.js' %}"></script>
     <script src="{% static 'demostat/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'demostat/demostat/js/script.js' %}"></script>
+    {% block javascrip %}
+    {% end block %}
   </body>
 </html>
