@@ -5,6 +5,9 @@ import decimal
 import datetime
 
 class Organisation(models.Model):
+    """
+    Der Veranstalter einer Demo
+    """
     slug = models.SlugField()
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -13,8 +16,23 @@ class Organisation(models.Model):
     def __str__(self):
         return self.name
 
-class Location(models.Model):
+class Region(models.Model):
+    """
+    Mehrere Orte bilden eine Region. Alle Demos einer Region werden dann zusammen angezeigt
+    """
+    slug = models.SlugField()
+    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+class Location(models.Model):
+    """
+    Ein Ort einer Demonstration
+    """
+    name = models.CharField(max_length=200)
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, blank=True, null=True)
     lat = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     lon = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
 
@@ -40,15 +58,33 @@ class Location(models.Model):
         return self.name
 
 class Tag(models.Model):
+    """
+    Demos können durch Tags kategorisiert werden
+    """
     name = models.CharField(max_length=50)
     slug = models.SlugField()
 
     def __str__(self):
         return self.name
 
-class Demo(models.Model):
+class DemoGroup(models.Model):
+    """
+    Großdemonstrationen mit mehreren Veranstaltungen und Orten
+    """
     slug = models.SlugField()
-    organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
+    title = models.CharField(max_length=200)
+    organisation = models.ManyToManyField(Organisation)
+
+    def __str__(self):
+        return self.title
+
+class Demo(models.Model):
+    """
+    Eine Demo, eine Veranstaltung, ein Ort
+    """
+    slug = models.SlugField()
+    group = models.ManyToManyField(DemoGroup, blank=True)
+    organisation = models.ManyToManyField(Organisation)
     title = models.CharField(max_length=200)
     description = models.TextField()
     note = models.TextField(blank=True)
@@ -72,6 +108,9 @@ class Demo(models.Model):
         return str(self.date) + '; ' + self.title
 
 class Link(models.Model):
+    """
+    Zu Demonstartionen können Links hinzugefügt werden
+    """
     demo = models.ForeignKey(Demo, on_delete=models.PROTECT)
     title = models.CharField(max_length=30)
     url = models.URLField(max_length=200)
