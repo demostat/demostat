@@ -72,6 +72,19 @@ def filter_it(demo_list, get):
         if len(filter["org"]):
             demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
 
+    if "reg" in get:
+        filter["reg"] = []
+
+        for reg in sorted(get.getlist("reg")):
+            try:
+                reg = Region.objects.get(slug=reg)
+                filter["reg"].append(reg)
+            except:
+                pass
+
+        if len(filter["reg"]):
+            demo_list = demo_list.filter(location__region__slug__in=to_slug_array(filter["reg"]))
+
     demo_list = demo_list.distinct()
 
     return demo_list, filter
