@@ -28,13 +28,23 @@ class Region(models.Model):
         """
         Anzahl künfitiger Veranstaltungen
         """
-        return Demo.objects.filter(date__gt=timezone.now().date(), location__region=self).count()
+        out = Demo.objects.filter(date__gt=timezone.now().date(), location__region=self).count()
+
+        for region in self.region_set.all():
+            out += region.scheduled()
+
+        return out
 
     def scheduled_month(self):
         """
-        Anahl Veranstaltungen im nächten Monat
+        Anzahl Veranstaltungen im nächten Monat
         """
-        return Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
+        out = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
+
+        for region in self.region_set.all():
+            out += region.scheduled_month()
+
+        return out
 
     def __str__(self):
         return self.name
