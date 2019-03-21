@@ -24,18 +24,6 @@ class Location(models.Model):
     def marker_lon(self):
         return str(float(self.lon))
 
-    def box_top(self):
-        return str(float(self.lat) + 0.002)
-
-    def box_bottom(self):
-        return str(float(self.lat) - 0.002)
-
-    def box_left(self):
-        return str(float(self.lon) - 0.002)
-
-    def box_right(self):
-        return str(float(self.lon) + 0.002)
-
     def __str__(self):
         return self.name
 
