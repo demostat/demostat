@@ -24,6 +24,15 @@ class Region(models.Model):
     group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     name = models.CharField(max_length=200)
 
+    def locations(self):
+        locs = []
+        locs += self.location_set.all()
+
+        for region in self.region_set.all():
+            locs += region.locations()
+
+        return locs
+
     def scheduled(self):
         """
         Anzahl künfitiger Veranstaltungen

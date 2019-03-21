@@ -177,7 +177,7 @@ def RegionsView(request):
 
 def RegionView(request, slug):
     region = get_object_or_404(Region, slug=slug)
-    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region__slug=slug).order_by('date')
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).filter(location__in=region.locations()).distinct().order_by('date')
 
     return render(request, 'demostat/region_detail.html', make_context_object({
         'region': region,
