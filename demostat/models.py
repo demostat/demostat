@@ -24,6 +24,18 @@ class Region(models.Model):
     group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     name = models.CharField(max_length=200)
 
+    def scheduled(self):
+        """
+        Anzahl künfitiger Veranstaltungen
+        """
+        return Demo.objects.filter(date__gt=timezone.now().date(), location__region=self).count()
+
+    def scheduled_month(self):
+        """
+        Anahl Veranstaltungen im nächten Monat
+        """
+        return Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
+
     def __str__(self):
         return self.name
 
