@@ -11,7 +11,7 @@ from .utils import Querystring
 
 from . import version, release, develop
 
-from .models import Organisation, Demo, Tag
+from .models import Organisation, Region, Demo, Tag
 
 def make_context_object(context):
     s = {}
@@ -163,6 +163,26 @@ def demo(request, date__year, date__month, date__day, slug):
 def demo_id(request, demo_id):
     demo = get_object_or_404(Demo, pk=demo_id)
     return HttpResponseRedirect(reverse('demostat:demo', args=(demo.date.strftime("%Y"), demo.date.strftime("%m"), demo.date.strftime("%d"), demo.slug)))
+
+def RegionsView(request):
+    region_list = Region.objects.all().order_by('name')
+
+    if not region_list:
+        raise Http404()
+
+    return render(request, 'demostat/region_list.html', make_context_object({
+        'region_list': region_list,
+    }))
+
+
+def RegionView(request, slug):
+    region = get_object_or_404(Region, slug=slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region__slug=slug).order_by('date')
+
+    return render(request, 'demostat/region_detail.html', make_context_object({
+        'region': region,
+        'demo_list': demo_list,
+    }))
 
 def OrganisationView(request, slug):
     organisation = get_object_or_404(Organisation, slug=slug)

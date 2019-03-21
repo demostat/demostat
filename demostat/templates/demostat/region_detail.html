@@ -1,0 +1,17 @@
+{% extends "demostat/base.html" %}
+
+{% block title %}Demos in {{ region.name }}{% endblock %}
+
+{% block header %}
+<h1 class="display-4">Demos in {{ region.name }}</h1>
+{% endblock%}
+
+{% block content %}
+{% if region.region_set.all %}
+{% include "demostat/components/region_card_list.html" with region_list=region.region_set.all %}
+{% endif %}
+{% include "demostat/components/demo_card_list.html" %}
+<section>
+  <a href="{% url 'demostat:demos' %}?reg={{ region.slug }}" class="btn btn-outline-primary btn-block">weitere Demos in {{ region.name }}</a>
+</section>
+{% endblock %}

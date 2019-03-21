@@ -23,7 +23,7 @@
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wo?</h5>
-        <p class="card-text">{{ demo.location.name }}</p>
+        <p class="card-text">{% if demo.location.region %}<a href="{% url 'demostat:region' demo.location.region.slug %}">{{ demo.location.name }}</a>{% else %}{{ demo.location.name }}{% endif %}</p>
       </div>
     </div>
     <div class="card {% if demo.is_next %} border-success {% endif %}">

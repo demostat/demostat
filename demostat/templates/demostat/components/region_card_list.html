@@ -1,0 +1,9 @@
+<section>
+  <div class="row">
+    {% for region in region_list %}
+    <div class="col-md-4">
+      {% include "demostat/components/region_card.html" %}
+    </div>
+    {% endfor %}
+  </div>
+</section>

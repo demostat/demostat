@@ -1,0 +1,7 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ region.name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ region.region_set.all|length }} Region{% if region.region_set.all|length != 1 %}en{% endif %}</h6>
+    <a href="{% url 'demostat:region' region.slug %}" class="btn btn-primary card-link">Mehr Details</a>
+  </div>
+</div>
