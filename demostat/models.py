@@ -55,6 +55,13 @@ class Region(models.Model):
 
         return out
 
+    def upcoming(self):
+        """
+        Anzahl  nurin diesem Monat an diesem Ort stattfindende Demos
+        """
+
+        return Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
+
     def __str__(self):
         return self.name
 

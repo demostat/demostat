@@ -7,7 +7,14 @@
 {% endblock%}
 
 {% block content %}
-{% include "demostat/components/demo_card_list.html" with demo_list=demo_list%}
+<section>
+  <h2 class="display-4">Demos in deiner Nähe</h2>
+</section>
+{% include "demostat/components/region_card_list.html" %}
+<section>
+  <h2 class="display-4">Anstehende Demos</h2>
+</section>
+{% include "demostat/components/demo_card_list.html" %}
 {% if demo_next %}
 <section>
   <a href="{% url 'demostat:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}#{{ demo_next.date|date:"d" }}" class="btn btn-outline-primary btn-block">weitere Demos</a>

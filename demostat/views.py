@@ -91,10 +91,20 @@ def filter_it(demo_list, get):
 
 # Create your views here.
 def IndexView(request):
+    region_list_raw = Region.objects.all()
+
+    region_list = []
+    for region in region_list_raw:
+        if region.upcoming() > 0:
+            region_list.append(region)
+
+    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)
+
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
     demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
 
     return render(request, 'demostat/index.html', make_context_object({
+        'region_list': region_list[0:5],
         'demo_list': demo_list,
         'demo_next': demo_next,
     }))
