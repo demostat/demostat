@@ -98,7 +98,7 @@ def IndexView(request):
         if region.upcoming() > 0:
             region_list.append(region)
 
-    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)[:15]
+    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)[:8]
 
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
     demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
