@@ -9,6 +9,7 @@
 
 {% block content %}
 {% include "demostat/components/demo_tag_filter_bar.html" %}
+{% if demo_list %}
 {% regroup demo_list|dictsort:"date" by year as demo_list_date %}
 <section>
   <div class="row">
@@ -25,4 +26,11 @@
 {% endfor %}
   </div>
 </section>
+{% else %}
+<section>
+  <div class="alert alert-primary">
+    Leider keine Demos zum anzeigen.
+  </div>
+</section>
+{% endif %}
 {% endblock %}
