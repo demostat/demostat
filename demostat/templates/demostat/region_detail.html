@@ -4,6 +4,12 @@
 
 {% block header %}
 <h1 class="display-4">Demos in {{ region.name }}</h1>
+{% if region.group %}<p class="lead">Teil von <a href="{% url 'demostat:region' region.group.slug %}">{{ region.group.name }}</a></p>{% endif %}
+<section class="tags">
+  <span class="h3">
+    {% for reg in region.region_set.all %}<a href="{% url 'demostat:region' reg.slug %}" class="badge badge-light m-1">{{ reg.name }}</a>{% endfor %}
+  </span>
+</section>
 {% endblock%}
 
 {% block content %}
