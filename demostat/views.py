@@ -112,9 +112,6 @@ def IndexView(request):
 def demos(request):
     demo_list = Demo.objects.all().order_by('date')
 
-    if not demo_list:
-        raise Http404()
-
     #=== FILTER ===
 
     demo_list, filter = filter_it(demo_list, request.GET)
