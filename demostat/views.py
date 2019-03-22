@@ -190,9 +190,6 @@ def demo_id(request, demo_id):
 def RegionsView(request):
     region_list = Region.objects.all().order_by('name')
 
-    if not region_list:
-        raise Http404()
-
     return render(request, 'demostat/region_list.html', make_context_object({
         'region_list': region_list,
     }))
