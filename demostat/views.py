@@ -35,6 +35,13 @@ def make_context_object(context):
     except:
         pass
 
+    # https://leafletjs.com/reference-1.4.0.html#tilelayer
+    try:
+        if settings.DEMOSTAT_LEAFLET['url'] and settings.DEMOSTAT_LEAFLET['attribution'] and settings.DEMOSTAT_LEAFLET['maxZoom']:
+            s['DEMOSTAT_LEAFLET'] = settings.DEMOSTAT_LEAFLET
+    except:
+        pass
+
     return {**s, **context}
 
 def to_slug_array(dicts):

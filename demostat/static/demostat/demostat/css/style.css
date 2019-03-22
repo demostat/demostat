@@ -73,3 +73,7 @@ footer a {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+.leaflet-top, .leaflet-bottom {
+  z-index: 900 !important;
+}
