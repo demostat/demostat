@@ -58,10 +58,10 @@
       <div class="clickoverlay embed-responsive-item">
         <p class="text-center">Klicken um die Karte freizuschalten</p>
       </div>
-      <div id="mapid" class="embed-responsive-item"></div>
+      <div id="leaflet-map" class="embed-responsive-item"></div>
     </div>
     <div class="list-group list-group-flush">
-      <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=13/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
+      <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=17/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
     </div>
   </div>
   {% endif %}
@@ -103,7 +103,7 @@
 <script src="{% static 'demostat/leaflet/leaflet.js' %}" ></script>
 <script>
 $(function () {
-  let mymap = L.map('mapid').setView([{{ demo.location.marker_lat }}, {{ demo.location.marker_lon }}], 13);
+  let mymap = L.map('leaflet-map').setView([{{ demo.location.marker_lat }}, {{ demo.location.marker_lon }}], 17);
   {% if DEMOSTAT_LEAFLET %}
   L.tileLayer('{{ DEMOSTAT_LEAFLET.url }}', {
 		attribution: '{{ DEMOSTAT_LEAFLET.attribution }}',
