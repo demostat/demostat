@@ -7,13 +7,16 @@
 {% endblock%}
 
 {% block content %}
-<section>
-  <h2 class="display-4">Demos in deiner Nähe</h2>
+{% if region_list %}
+<section class="text-center">
+  <div class="jumbotron">
+    <h2 class="display-4 pb-3">Demos in deiner Nähe</h2>
+    {% for region in region_list %}
+    <a href="{% url 'demostat:region' region.slug %}" class="btn btn-success btn-lg m-2">{{ region.name }}</a>
+    {% endfor %}
+  </div>
 </section>
-{% include "demostat/components/region_card_list.html" %}
-<section>
-  <h2 class="display-4">Anstehende Demos</h2>
-</section>
+{% endif %}
 {% include "demostat/components/demo_card_list.html" %}
 {% if demo_next %}
 <section>

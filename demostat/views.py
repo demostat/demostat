@@ -98,13 +98,13 @@ def IndexView(request):
         if region.upcoming() > 0:
             region_list.append(region)
 
-    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)
+    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)[:15]
 
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
     demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
 
     return render(request, 'demostat/index.html', make_context_object({
-        'region_list': region_list[0:5],
+        'region_list': region_list,
         'demo_list': demo_list,
         'demo_next': demo_next,
     }))
