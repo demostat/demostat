@@ -14,6 +14,7 @@
     {% for region in region_list %}
     <a href="{% url 'demostat:region' region.slug %}" class="btn btn-success btn-lg m-2">{{ region.name }}</a>
     {% endfor %}
+    <a class="btn btn-primary btn-lg m-2" href="{% url 'demostat:regions' %}" role="button">Alle Orte</a>
   </div>
 </section>
 {% endif %}
