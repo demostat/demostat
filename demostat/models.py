@@ -10,6 +10,7 @@ class Organisation(models.Model):
     """
     slug = models.SlugField()
     name = models.CharField(max_length=200)
+    
     description = models.TextField(blank=True)
     url = models.URLField(max_length=200, blank=True)
 
@@ -70,7 +71,9 @@ class Location(models.Model):
     Ein Ort einer Demonstration
     """
     name = models.CharField(max_length=200)
+
     region = models.ForeignKey(Region, on_delete=models.PROTECT, blank=True, null=True)
+
     lat = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     lon = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
 
@@ -99,35 +102,28 @@ class Tag(models.Model):
     """
     Demos können durch Tags kategorisiert werden
     """
-    name = models.CharField(max_length=50)
     slug = models.SlugField()
+
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
-
-class DemoGroup(models.Model):
-    """
-    Großdemonstrationen mit mehreren Veranstaltungen und Orten
-    """
-    slug = models.SlugField()
-    title = models.CharField(max_length=200)
-    organisation = models.ManyToManyField(Organisation)
-
-    def __str__(self):
-        return self.title
 
 class Demo(models.Model):
     """
     Eine Demo, eine Veranstaltung, ein Ort
     """
     slug = models.SlugField()
-    group = models.ManyToManyField(DemoGroup, blank=True)
-    organisation = models.ManyToManyField(Organisation)
+    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     title = models.CharField(max_length=200)
-    description = models.TextField()
-    note = models.TextField(blank=True)
+
+    organisation = models.ManyToManyField(Organisation)
     date = models.DateTimeField()
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
+
+    description = models.TextField()
+    note = models.TextField(blank=True)
+
     tags = models.ManyToManyField(Tag, blank=True)
 
     def day(self):
@@ -150,6 +146,7 @@ class Link(models.Model):
     Zu Demonstartionen können Links hinzugefügt werden
     """
     demo = models.ForeignKey(Demo, on_delete=models.PROTECT)
+
     title = models.CharField(max_length=30)
     url = models.URLField(max_length=200)
 
