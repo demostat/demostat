@@ -9,22 +9,39 @@ from django.db.models import Q
 import datetime
 from .utils import Querystring
 
+from . import version, release, develop
+
 from .models import Organisation, Demo, Tag
 
 def make_context_object(context):
     s = {}
+
+    s['DEMOSTAT_VERSION'] = version
+    s['DEMOSTAT_RELEASE'] = release
+    s['DEMOSTAT_DEVELOP'] = develop
+
     try:
         s['SITE_TITLE'] = settings.SITE_TITLE
     except:
         pass
+
     try:
         s['SITE_IMPRINT_URL'] = settings.SITE_IMPRINT_URL
     except:
         pass
+
     try:
         s['SITE_PRIVACY_URL'] = settings.SITE_PRIVACY_URL
     except:
         pass
+
+    # https://leafletjs.com/reference-1.4.0.html#tilelayer
+    try:
+        if settings.DEMOSTAT_LEAFLET['url'] and settings.DEMOSTAT_LEAFLET['attribution'] and settings.DEMOSTAT_LEAFLET['maxZoom']:
+            s['DEMOSTAT_LEAFLET'] = settings.DEMOSTAT_LEAFLET
+    except:
+        pass
+
     return {**s, **context}
 
 def to_slug_array(dicts):

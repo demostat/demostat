@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'demostat/css/bootstrap.min.css' %}">
-
-    <link rel="stylesheet" href="{% static 'demostat/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'demostat/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'demostat/demostat/css/style.css' %}">
+    {% block css %}
+    {% endblock %}
 
     <title>{% block title %}{% endblock %} | {% if SITE_TITLE %}{{ SITE_TITLE }}{% else %}Demostat{% endif %}</title>
   </head>
@@ -51,13 +52,16 @@
         {% if SITE_IMPRINT_URL %}<a href="{{ SITE_IMPRINT_URL }}" target="_blank">Impressum</a>{% endif %}
         {% if SITE_PRIVACY_URL %}<a href="{{ SITE_PRIVACY_URL }}" target="_blank">Datenschutz</a>{% endif %}
         <a href="https://github.com/demostat/demostat" target="_blank">Quellcode auf GitHub</a>
+        {% if DEMOSTAT_DEVELOP %}<span class="badge badge-danger">{{ DEMOSTAT_RELEASE }}</span>{% endif %}
       </div>
     </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{% static 'demostat/js/jquery.slim.min.js' %}"></script>
-    <script src="{% static 'demostat/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'demostat/js/script.js' %}"></script>
+    <script src="{% static 'demostat/jquery/js/jquery.slim.min.js' %}"></script>
+    <script src="{% static 'demostat/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'demostat/demostat/js/script.js' %}"></script>
+    {% block javascript %}
+    {% endblock %}
   </body>
 </html>

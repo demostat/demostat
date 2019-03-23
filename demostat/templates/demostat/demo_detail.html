@@ -1,6 +1,12 @@
 {% extends "demostat/base.html" %}
+{% load static %}
+
 
 {% block title %}{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'demostat/leaflet/leaflet.css' %}">
+{% endblock %}
 
 {% block header %}
 <h1 class="display-4">{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}</h1>
@@ -52,7 +58,7 @@
       <div class="clickoverlay embed-responsive-item">
         <p class="text-center">Klicken um die Karte freizuschalten</p>
       </div>
-      <iframe class="embed-responsive-item" src="https://www.openstreetmap.org/export/embed.html?bbox={{ demo.location.box_left }}%2C{{ demo.location.box_bottom }}%2C{{ demo.location.box_right }}%2C{{ demo.location.box_top }}&amp;layer=mapnik&amp;marker={{ demo.location.marker_lat }}%2C{{ demo.location.marker_lon }}"></iframe>
+      <div id="leaflet-map" class="embed-responsive-item"></div>
     </div>
     <div class="list-group list-group-flush">
       <a href="https://www.openstreetmap.org/?mlat={{ demo.location.marker_lat }}&amp;mlon={{ demo.location.marker_lon }}#map=17/{{ demo.location.marker_lat }}/{{ demo.location.marker_lon }}" class="list-group-item" target="_blank">Große Karte öffnen</a>
@@ -91,4 +97,25 @@
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'demostat/leaflet/leaflet.js' %}" ></script>
+<script>
+$(function () {
+  let mymap = L.map('leaflet-map').setView([{{ demo.location.marker_lat }}, {{ demo.location.marker_lon }}], 17);
+  {% if DEMOSTAT_LEAFLET %}
+  L.tileLayer('{{ DEMOSTAT_LEAFLET.url }}', {
+		attribution: '{{ DEMOSTAT_LEAFLET.attribution }}',
+		maxZoom: {{ DEMOSTAT_LEAFLET.maxZoom }}
+	}).addTo(mymap);
+  {% else %}
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+		maxZoom: 18
+	}).addTo(mymap);
+  {% endif %}
+  let marker = L.marker([{{ demo.location.marker_lat }}, {{ demo.location.marker_lon }}]).addTo(mymap);
+});
+</script>
 {% endblock %}
