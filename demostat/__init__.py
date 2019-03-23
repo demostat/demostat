@@ -6,6 +6,6 @@ def __is_develop(release):
     return release.endswith("-dev")
 
 name = "demostat"
-release = "0.1.2-dev"
+release = "0.2.0"
 version = __to_version(release)
 develop = __is_develop(release)
