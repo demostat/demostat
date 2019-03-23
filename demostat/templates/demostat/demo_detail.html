@@ -43,11 +43,13 @@
     </div>
   </div>
   {% if demo.link_set.all %}
+  {% if demo.location.lat and demo.location.lon or demo.demo_set.all %}
   <div class="list-group list-group-horizontal-md text-center">
     {% for link in demo.link_set.all|slice:":4" %}
     <a href="{{ link.url }}" class="list-group-item flex-fill" target="_blank">{{ link.title }}</a>
     {% endfor %}
   </div>
+  {% endif %}
   {% endif %}
   {% if demo.demo_set.all %}
   <div class="row">
