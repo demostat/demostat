@@ -10,6 +10,7 @@
 
 {% block header %}
 <h1 class="display-4">{{ demo.title }} am {{ demo.date|date:"d.m.Y" }}</h1>
+{% if demo.group and demo.group != demo %}<p class="lead">Teil von <a href="{% url 'demostat:demo' demo.group.date|date:"Y" demo.group.date|date:"m" demo.group.date|date:"d" demo.group.slug %}"">{{ demo.group.title }} am {{ demo.group.date|date:"d.m.Y" }}</a></p>{% endif %}
 <section class="tags">
   <span class="h3">
     {% for tag in demo.tags.all %}<a href="{% url 'demostat:tag' tag.slug %}" class="badge badge-light">{{ tag.name }}</a>{% endfor %}
@@ -29,13 +30,15 @@
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wo?</h5>
-        <p class="card-text">{{ demo.location.name }}</p>
+        <p class="card-text">{% if demo.location.region %}<a href="{% url 'demostat:region' demo.location.region.slug %}">{{ demo.location.name }}</a>{% else %}{{ demo.location.name }}{% endif %}</p>
       </div>
     </div>
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wer?</h5>
-        <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
+        {% for organisation in demo.organisation.all %}
+        <p class="card-text"><a href="{% url 'demostat:organisation' organisation.slug %}">{{ organisation.name }}</a></p>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -46,9 +49,22 @@
     </div>
   </div>
   {% if demo.link_set.all %}
+  {% if demo.location.lat and demo.location.lon or demo.demo_set.all %}
   <div class="list-group list-group-horizontal-md text-center">
     {% for link in demo.link_set.all|slice:":4" %}
     <a href="{{ link.url }}" class="list-group-item flex-fill" target="_blank">{{ link.title }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endif %}
+  {% if demo.demo_set.all %}
+  <div class="row">
+    {% for de in demo.demo_set.all %}
+    {% if de != demo %}
+    <div class="col-md-4">
+      {% include "demostat/components/demo_card.html" with demo=de %}
+    </div>
+    {% endif %}
     {% endfor %}
   </div>
   {% endif %}

@@ -3,11 +3,29 @@
 {% block title %}Anstehende Demos{% endblock %}
 
 {% block header %}
-<h1 class="display-1">Demos in Erfurt</h1>
+<h1 class="display-1">Demostat</h1>
+<p class="lead">Finde Demonstrationen in Deiner Nähe!</p>
+
+<section class="tags">
+  <span class="h2">
+    {% for region in region_list %}<a href="{% url 'demostat:region' region.slug %}" class="badge badge-light m-1">{{ region.name }}</a>{% endfor %}
+  </span>
+</section>
 {% endblock%}
 
 {% block content %}
-{% include "demostat/components/demo_card_list.html" with demo_list=demo_list%}
+<!--{% if region_list %}
+<section class="text-center">
+  <div class="jumbotron">
+    <h2 class="display-4 pb-3">Demos in deiner Nähe</h2>
+    {% for region in region_list %}
+    <a href="{% url 'demostat:region' region.slug %}" class="btn btn-success btn-lg m-2">{{ region.name }}</a>
+    {% endfor %}
+    <a class="btn btn-primary btn-lg m-2" href="{% url 'demostat:regions' %}" role="button">Alle Orte</a>
+  </div>
+</section>
+{% endif %}-->
+{% include "demostat/components/demo_card_list.html" %}
 {% if demo_next %}
 <section>
   <a href="{% url 'demostat:demos_month' demo_next.date|date:"Y" demo_next.date|date:"m" %}#{{ demo_next.date|date:"d" }}" class="btn btn-outline-primary btn-block">weitere Demos</a>

@@ -1,0 +1,17 @@
+{% if region_list %}
+<section>
+  <div class="row">
+    {% for region in region_list %}
+    <div class="col-md-4">
+      {% include "demostat/components/region_card.html" %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% else %}
+<section>
+  <div class="alert alert-primary">
+    Leider keine Orte zum anzeigen.
+  </div>
+</section>
+{% endif %}

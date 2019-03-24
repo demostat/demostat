@@ -14,5 +14,11 @@
     <a href="{% tf_generate_qs_without 'org' org.slug filter %}" class="btn btn-success btn-sm">&times;</a>
   </div>
   {% endfor %}
+  {% for reg in filter.reg %}
+  <div class="btn-group">
+    <a href="{% url 'demostat:region' reg.slug %}" class="btn btn-success btn-sm">{{ reg.name }}</a>
+    <a href="{% tf_generate_qs_without 'reg' reg.slug filter %}" class="btn btn-success btn-sm">&times;</a>
+  </div>
+  {% endfor %}
 </section>
 {% endif %}

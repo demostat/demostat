@@ -1,6 +1,6 @@
 <div class="card {% if demo.is_next %} border-success {% endif %}">
   <div class="card-body">
-    <h5 class="card-title">{{ demo.title }} <small class="text-muted">von <a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></small></h5>
+    <h5 class="card-title">{{ demo.title }} {% if demo.organisation.all %}<small class="text-muted">von {% if demo.organisation.all|length > 1 %} {{ demo.organisation.all|length }} Organisationen{% else %}<a href="{% url 'demostat:organisation' demo.organisation.all.0.slug %}">{{ demo.organisation.all.0.name }}</a>{% endif %}</small>{% endif %}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{ demo.date|date:"d.m.Y H:i" }} Uhr, {{ demo.location.name }}</h6>
     <p class="card-text">{{ demo.description }}</p>
     <p>

@@ -9,7 +9,14 @@ header {
 
 header h1 {
   text-align: center;
-  padding: 1em 0;
+}
+
+header h1.display-1 {
+  padding-top: 1em;
+}
+
+header p.lead {
+  text-align: center;
 }
 
 header section {

@@ -11,7 +11,7 @@ from .utils import Querystring
 
 from . import version, release, develop
 
-from .models import Organisation, Demo, Tag
+from .models import Organisation, Region, Demo, Tag
 
 def make_context_object(context):
     s = {}
@@ -79,25 +79,45 @@ def filter_it(demo_list, get):
         if len(filter["org"]):
             demo_list = demo_list.filter(organisation__slug__in=to_slug_array(filter["org"]))
 
+    if "reg" in get:
+        filter["reg"] = []
+
+        for reg in sorted(get.getlist("reg")):
+            try:
+                reg = Region.objects.get(slug=reg)
+                filter["reg"].append(reg)
+            except:
+                pass
+
+        if len(filter["reg"]):
+            demo_list = demo_list.filter(location__region__slug__in=to_slug_array(filter["reg"]))
+
     demo_list = demo_list.distinct()
 
     return demo_list, filter
 
 # Create your views here.
 def IndexView(request):
+    region_list_raw = Region.objects.all()
+
+    region_list = []
+    for region in region_list_raw:
+        if region.upcoming() > 0:
+            region_list.append(region)
+
+    region_list = sorted(region_list, key=lambda x: x.upcoming(), reverse=True)[:8]
+
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
     demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
 
     return render(request, 'demostat/index.html', make_context_object({
+        'region_list': region_list,
         'demo_list': demo_list,
         'demo_next': demo_next,
     }))
 
 def demos(request):
     demo_list = Demo.objects.all().order_by('date')
-
-    if not demo_list:
-        raise Http404()
 
     #=== FILTER ===
 
@@ -170,6 +190,23 @@ def demo(request, date__year, date__month, date__day, slug):
 def demo_id(request, demo_id):
     demo = get_object_or_404(Demo, pk=demo_id)
     return HttpResponseRedirect(reverse('demostat:demo', args=(demo.date.strftime("%Y"), demo.date.strftime("%m"), demo.date.strftime("%d"), demo.slug)))
+
+def RegionsView(request):
+    region_list = Region.objects.all().order_by('name')
+
+    return render(request, 'demostat/region_list.html', make_context_object({
+        'region_list': region_list,
+    }))
+
+
+def RegionView(request, slug):
+    region = get_object_or_404(Region, slug=slug)
+    demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).filter(location__in=region.locations()).distinct().order_by('date')
+
+    return render(request, 'demostat/region_detail.html', make_context_object({
+        'region': region,
+        'demo_list': demo_list,
+    }))
 
 def OrganisationView(request, slug):
     organisation = get_object_or_404(Organisation, slug=slug)
