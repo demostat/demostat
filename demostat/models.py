@@ -10,7 +10,7 @@ class Organisation(models.Model):
     """
     slug = models.SlugField()
     name = models.CharField(max_length=200)
-    
+
     description = models.TextField(blank=True)
     url = models.URLField(max_length=200, blank=True)
 
@@ -25,36 +25,57 @@ class Region(models.Model):
     group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
     name = models.CharField(max_length=200)
 
-    def locations(self):
+    def locations_helper(self, start):
         locs = []
         locs += self.location_set.all()
 
         for region in self.region_set.all():
-            locs += region.locations()
+            if region != start:
+                locs += region.locations_helper(start)
 
         return locs
+
+    def locations(self):
+        """
+        Alle Orte, die auf die eigene und alle Kind-Regionen zeigen als Array
+
+        Übergibt sich selbst als startparameter und wird immer weiter durchgereicht, um bei möglichen rekursionen rechtzeitig abbrechen zu können
+        """
+        return self.locations_helper(self)
+
+    def scheduled_helper(self, start):
+        out = Demo.objects.filter(date__gt=timezone.now().date(), location__region=self).count()
+
+        for region in self.region_set.all():
+            if region != start:
+                out += region.scheduled_helper(start)
+
+        return out
 
     def scheduled(self):
         """
         Anzahl künfitiger Veranstaltungen
+
+        Übergibt sich selbst als startparameter und wird immer weiter durchgereicht, um bei möglichen rekursionen rechtzeitig abbrechen zu können
         """
-        out = Demo.objects.filter(date__gt=timezone.now().date(), location__region=self).count()
+        return self.scheduled_helper(self)
+
+    def scheduled_month_helper(self, start):
+        out = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
 
         for region in self.region_set.all():
-            out += region.scheduled()
+            if region != start:
+                out += region.scheduled_month_helper(start)
 
         return out
 
     def scheduled_month(self):
         """
         Anzahl Veranstaltungen im nächten Monat
+
+        Übergibt sich selbst als startparameter und wird immer weiter durchgereicht, um bei möglichen rekursionen rechtzeitig abbrechen zu können
         """
-        out = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4), location__region=self).count()
-
-        for region in self.region_set.all():
-            out += region.scheduled_month()
-
-        return out
+        return self.scheduled_month_helper(self)
 
     def upcoming(self):
         """
