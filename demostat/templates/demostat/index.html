@@ -3,7 +3,7 @@
 {% block title %}Anstehende Demos{% endblock %}
 
 {% block header %}
-<h1 class="display-1">Demostat</h1>
+<h1 class="display-1">{% if SITE_TITLE %}{{ SITE_TITLE }}{% else %}Demostat{% endif %}</h1>
 <p class="lead">Finde Demonstrationen in Deiner Nähe!</p>
 
 <section class="tags">
