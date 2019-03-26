@@ -157,6 +157,12 @@ class Demo(models.Model):
     def __str__(self):
         return str(self.__date()) + "; " + self.title
 
+    class Meta:
+        verbose_name = "Demo"
+        verbose_name_plural = "Demos"
+
+        ordering = ['date', 'title']
+
 class Link(models.Model):
     """
     Zu Demonstartionen können Links hinzugefügt werden
