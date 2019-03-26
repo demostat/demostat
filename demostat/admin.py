@@ -3,6 +3,29 @@ from django.contrib import admin
 # Register your models here.
 from .models import Organisation, Region, Location, Tag, Demo, Link
 
+class TagAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            None, {
+                'fields': [
+                    'slug',
+                ],
+
+            },
+        ),
+        (
+            None, {
+                'fields': [
+                    'name',
+                ],
+            },
+        ),
+    ]
+
+    list_display = (
+        'name',
+    )
+
 class LinkAdmin(admin.ModelAdmin):
     fieldsets = [
         (
@@ -81,6 +104,6 @@ class DemoAdmin(admin.ModelAdmin):
 admin.site.register(Organisation)
 admin.site.register(Region)
 admin.site.register(Location)
-admin.site.register(Tag)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Demo, DemoAdmin)
 admin.site.register(Link, LinkAdmin)

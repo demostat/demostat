@@ -111,12 +111,18 @@ class Tag(models.Model):
     """
     Demos können durch Tags kategorisiert werden
     """
-    slug = models.SlugField()
+    slug = models.SlugField("Slug")
 
-    name = models.CharField(max_length=50)
+    name = models.CharField("Name", max_length=50)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+
+        ordering = ['name']
 
 class Demo(models.Model):
     """
