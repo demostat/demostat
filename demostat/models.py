@@ -155,18 +155,22 @@ class Demo(models.Model):
         return self.date >= timezone.now() and Demo.objects.filter(date__gt=timezone.now(), date__lt=self.date).count() <= 0
 
     def __str__(self):
-        return self.title
+        return str(self.__date()) + "; " + self.title
 
 class Link(models.Model):
     """
     Zu Demonstartionen können Links hinzugefügt werden
     """
-    demo = models.ForeignKey(Demo, on_delete=models.PROTECT)
+    demo = models.ForeignKey(Demo, on_delete=models.PROTECT, verbose_name="Demo")
 
-    title = models.CharField(max_length=30)
-    url = models.URLField(max_length=200)
+    title = models.CharField("Titel", max_length=30)
+    url = models.URLField("Url", max_length=200)
 
-    order = models.IntegerField(default=0)
+    order = models.IntegerField("Reihenfolge", default=0)
 
     def __str__(self):
-        return str(self.demo) + '; ' + self.title
+        return str(self.demo) + "; " + self.title
+
+    class Meta:
+        verbose_name = "Link"
+        verbose_name_plural = "Links"
