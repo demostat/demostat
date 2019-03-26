@@ -122,18 +122,18 @@ class Demo(models.Model):
     """
     Eine Demo, eine Veranstaltung, ein Ort
     """
-    slug = models.SlugField()
-    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
-    title = models.CharField(max_length=200)
+    slug = models.SlugField("Slug")
+    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True, verbose_name="Gruppe")
 
-    organisation = models.ManyToManyField(Organisation)
-    date = models.DateTimeField()
-    location = models.ForeignKey(Location, on_delete=models.PROTECT)
+    title = models.CharField("Titel", max_length=200)
+    organisation = models.ManyToManyField(Organisation, verbose_name="Organisation")
+    date = models.DateTimeField("Datum")
+    location = models.ForeignKey(Location, on_delete=models.PROTECT, verbose_name="Ort")
 
-    description = models.TextField()
-    note = models.TextField(blank=True)
+    description = models.TextField("Beschreibung")
+    note = models.TextField("Anmerkungen", blank=True)
 
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name="Tags")
 
     def __date(self):
         """
@@ -155,7 +155,7 @@ class Demo(models.Model):
         return self.date >= timezone.now() and Demo.objects.filter(date__gt=timezone.now(), date__lt=self.date).count() <= 0
 
     def __str__(self):
-        return str(self.__date()) + '; ' + self.title
+        return self.title
 
 class Link(models.Model):
     """
