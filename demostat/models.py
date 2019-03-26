@@ -135,20 +135,27 @@ class Demo(models.Model):
 
     tags = models.ManyToManyField(Tag, blank=True)
 
+    def __date(self):
+        """
+        Gebe die Zeit in der aktuellen Zeitzone zurück.
+        Django macht im Backend alles mittels UTC.
+        """
+        return timezone.localtime(self.date)
+
     def day(self):
-        return self.date.date()
+        return datetime.date(self.__date().year, self.__date().month, self.__date().day)
 
     def month(self):
-        return datetime.date(self.date.date().year, self.date.date().month, 1)
+        return datetime.date(self.__date().year, self.__date().month, 1)
 
     def year(self):
-        return datetime.date(self.date.date().year, 1, 1)
+        return datetime.date(self.__date().year, 1, 1)
 
     def is_next(self):
         return self.date >= timezone.now() and Demo.objects.filter(date__gt=timezone.now(), date__lt=self.date).count() <= 0
 
     def __str__(self):
-        return str(self.date) + '; ' + self.title
+        return str(self.__date()) + '; ' + self.title
 
 class Link(models.Model):
     """
