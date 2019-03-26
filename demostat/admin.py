@@ -34,19 +34,12 @@ class RegionAdmin(admin.ModelAdmin):
             None, {
                 'fields': [
                     'slug',
-                ],
-
-            },
-        ),
-        (
-            None, {
-                'fields': [
                     'group',
                 ],
             },
         ),
         (
-            None, {
+            "Über", {
                 'fields': [
                     'name',
                 ],
@@ -69,7 +62,7 @@ class LocationAdmin(admin.ModelAdmin):
             },
         ),
         (
-            None, {
+            "Über", {
                 'fields': [
                     'name',
                 ],
@@ -100,7 +93,7 @@ class TagAdmin(admin.ModelAdmin):
             },
         ),
         (
-            None, {
+            "Über", {
                 'fields': [
                     'name',
                 ],
@@ -123,7 +116,7 @@ class LinkAdmin(admin.ModelAdmin):
             },
         ),
         (
-            None, {
+            "Über", {
                 'fields': [
                     'title',
                     'url',
@@ -131,7 +124,7 @@ class LinkAdmin(admin.ModelAdmin):
             },
         ),
         (
-            None, {
+            "Weiteres", {
                 'fields': [
                     'order',
                 ],
