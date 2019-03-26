@@ -28,6 +28,10 @@ class OrganisationAdmin(admin.ModelAdmin):
         'name',
     )
 
+class LocationInline(admin.TabularInline):
+    model = Location
+    extra = 0
+
 class RegionAdmin(admin.ModelAdmin):
     fieldsets = [
         (
@@ -45,6 +49,9 @@ class RegionAdmin(admin.ModelAdmin):
                 ],
             },
         ),
+    ]
+    inlines = [
+        LocationInline,
     ]
 
     list_display = (
