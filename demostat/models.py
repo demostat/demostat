@@ -21,9 +21,9 @@ class Region(models.Model):
     """
     Mehrere Orte bilden eine Region. Alle Demos einer Region werden dann zusammen angezeigt
     """
-    slug = models.SlugField()
-    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True)
-    name = models.CharField(max_length=200)
+    slug = models.SlugField("Slug")
+    group = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True, verbose_name="Gruppe")
+    name = models.CharField("Name", max_length=200)
 
     def locations_helper(self, start):
         locs = []
@@ -86,6 +86,13 @@ class Region(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Ort"
+        verbose_name_plural = "Orte"
+
+        ordering = ['name']
+
 
 class Location(models.Model):
     """
