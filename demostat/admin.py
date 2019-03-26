@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 
 # Register your models here.
 from .models import Organisation, Region, Location, Tag, Demo, Link
@@ -143,7 +144,20 @@ class LinkInline(admin.TabularInline):
     model = Link
     extra = 0
 
+class DemoForm(forms.ModelForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        slug = cleaned_data.get('slug')
+        date = cleaned_data.get('date')
+
+        if Demo.objects.filter(date__year=date.year, date__month=date.month, date__day=date.day, slug=slug).count():
+            raise forms.ValidationError(
+                "Der Slug existiert schon an diesem Tag."
+            )
+
 class DemoAdmin(admin.ModelAdmin):
+    form = DemoForm
+
     fieldsets = [
         (
             None, {
