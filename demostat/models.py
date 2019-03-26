@@ -91,12 +91,12 @@ class Location(models.Model):
     """
     Ein Ort einer Demonstration
     """
-    name = models.CharField(max_length=200)
+    name = models.CharField("Name", max_length=200)
 
-    region = models.ForeignKey(Region, on_delete=models.PROTECT, blank=True, null=True)
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, blank=True, null=True, verbose_name="Ort")
 
-    lat = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
-    lon = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    lat = models.DecimalField("Latitude", max_digits=22, decimal_places=16, blank=True, null=True, help_text="Breitengrad")
+    lon = models.DecimalField("Longitude", max_digits=22, decimal_places=16, blank=True, null=True, help_text="Längengrad")
 
     def marker_lat(self):
         return str(float(self.lat))
@@ -106,6 +106,13 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Standort"
+        verbose_name_plural = "Standorte"
+
+        ordering = ['name']
+
 
 class Tag(models.Model):
     """
