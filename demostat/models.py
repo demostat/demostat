@@ -8,14 +8,21 @@ class Organisation(models.Model):
     """
     Der Veranstalter einer Demo
     """
-    slug = models.SlugField()
-    name = models.CharField(max_length=200)
+    slug = models.SlugField("Slug")
+    name = models.CharField("Name", max_length=200)
 
-    description = models.TextField(blank=True)
-    url = models.URLField(max_length=200, blank=True)
+    description = models.TextField("Beschreibung", blank=True)
+    url = models.URLField("Url", max_length=200, blank=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Organisation"
+        verbose_name_plural = "Organisationen"
+
+        ordering = ['name']
+
 
 class Region(models.Model):
     """
