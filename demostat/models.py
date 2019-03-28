@@ -19,10 +19,16 @@ class Location(models.Model):
     lon = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
 
     def marker_lat(self):
-        return str(float(self.lat))
+        if self.lat:
+            return str(float(self.lat))
+        else:
+            return None
 
     def marker_lon(self):
-        return str(float(self.lon))
+        if self.lon:
+            return str(float(self.lon))
+        else:
+            return None
 
     def __str__(self):
         return self.name
