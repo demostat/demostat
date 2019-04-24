@@ -40,3 +40,15 @@ Konfiguriere eine eigene Karten-Kachel-Quelle, z.B. für eine Proxy.
 
 
 Mehr dazu: https://leafletjs.com/reference-1.4.0.html#tilelayer
+
+String `CONTACT_EMAIL`
+----------------------
+
+Diese E-Mail wird auf der `Über Demostat`, gemeinsam mit einem Vermek dass dort Demos eingereicht werden können, angezeigt.
+
+Wenn dieser Parameter nicht gesetzt ist, wird die entpsrechende Sektion auf der Website nicht angezeigt.
+
+::
+
+    CONTACT_EMAIL = "hallo@demostat.de"
+
