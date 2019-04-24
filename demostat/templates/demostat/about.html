@@ -18,6 +18,14 @@
 
   <p>Wer steckt hinter der Demo? Auch das lässt sich ganz einfach herausfinden. Zu jeder Organisation gibt es eine kleine Zusammenfassung mit Links zur Homepage.</p>
 </section>
+{% if CONTACT_EMAIL %}
+<section id="einreichen">
+  <h3>Demo Eintragen</h3>
+    <p>Wenn du eine Demonstration kennst, welche hier noch nicht eingetragen ist, sende uns diese doch bitte an <a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a>!</p>
+
+    <i>In der Zukunft wird es dafür eine Formular auf der Seite geben - das Einreichen via E-Mail ist aktuell nur ein Provisorium.</i>
+</section>
+{% endif %}
 <section>
   <h3>Meta</h3>
   <div class="row">
