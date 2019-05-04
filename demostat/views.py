@@ -35,6 +35,11 @@ def make_context_object(context):
     except:
         pass
 
+    try:
+        s['CONTACT_EMAIL'] = settings.CONTACT_EMAIL
+    except:
+        pass
+
     # https://leafletjs.com/reference-1.4.0.html#tilelayer
     try:
         if settings.DEMOSTAT_LEAFLET['url'] and settings.DEMOSTAT_LEAFLET['attribution'] and settings.DEMOSTAT_LEAFLET['maxZoom']:
