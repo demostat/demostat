@@ -122,7 +122,7 @@ $(function () {
   let mymap = L.map('leaflet-map').setView([{{ demo.location.marker_lat }}, {{ demo.location.marker_lon }}], 17);
   {% if DEMOSTAT_LEAFLET %}
   L.tileLayer('{{ DEMOSTAT_LEAFLET.url }}', {
-		attribution: '{{ DEMOSTAT_LEAFLET.attribution }}',
+		attribution: '{% autoescape off %}{{ DEMOSTAT_LEAFLET.attribution }}{% endautoescape %}',
 		maxZoom: {{ DEMOSTAT_LEAFLET.maxZoom }}
 	}).addTo(mymap);
   {% else %}
