@@ -36,16 +36,14 @@
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wer?</h5>
-        {% for organisation in demo.organisation.all %}
-        <p class="card-text"><a href="{% url 'demostat:organisation' organisation.slug %}">{{ organisation.name }}</a></p>
-        {% endfor %}
+         <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
       </div>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Was?</h5>
-      <p class="card-text">{{ demo.description }}</p>
+      <p class="card-text">{{ demo.description|linebreaks }}</p>
     </div>
   </div>
   {% if demo.link_set.all %}
@@ -97,7 +95,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Anmerkungen</h5>
-      <p class="card-text">{{ demo.note }}</p>
+      <p class="card-text">{{ demo.note|linebreaks }}</p>
     </div>
   </div>
   {% endif %}
