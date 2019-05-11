@@ -36,7 +36,10 @@
     <div class="card {% if demo.is_next %} border-success {% endif %}">
       <div class="card-body">
         <h5 class="card-title">Wer?</h5>
-         <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p>
+         {% comment %} <p class="card-text"><a href="{% url 'demostat:organisation' demo.organisation.slug %}">{{ demo.organisation.name }}</a></p> {% endcomment %}
+        {% for organisation in demo.organisation.all %}
+        <p class="card-text"><a href="{% url 'demostat:organisation' organisation.slug %}">{{ organisation.name }}</a></p>
+        {% endfor %}
       </div>
     </div>
   </div>
