@@ -145,8 +145,14 @@ class Demo(models.Model):
         """
         Gebe die Zeit in der aktuellen Zeitzone zurück.
         Django macht im Backend alles mittels UTC.
+
+        make_aware wird nur bei alten Daten verwendet
+        die Abfrage dient Kompatibilitätszwecken
         """
-        return timezone.make_aware(self.date)
+        if not timezone.is_aware(self.date):
+            return timezone.make_aware(self.date)
+
+        return self.date
 
     def day(self):
         return datetime.date(self.__date().year, self.__date().month, self.__date().day)
