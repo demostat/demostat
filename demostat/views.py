@@ -170,8 +170,15 @@ def demos_month(request, date__year, date__month):
 
     #=== FILTER ===
 
-    demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
-    demo_next = Demo.objects.filter(date__year__gte=date__year, date__month__gt=date__month).order_by('date').first()
+    if int(date__month) == 1:
+        demo_prev = Demo.objects.filter(date__year__lt=date__year).order_by('date').last()
+    else:
+        demo_prev = Demo.objects.filter(date__year__lte=date__year, date__month__lt=date__month).order_by('date').last()
+
+    if int(date__month) == 12:
+        demo_next = Demo.objects.filter(date__year__gt=date__year).order_by('date').first()
+    else:
+        demo_next = Demo.objects.filter(date__year__gte=date__year, date__month__gt=date__month).order_by('date').first()
 
     return render(request, 'demostat/demos_month_list.html', make_context_object({
         'date': datetime.date(int(date__year), int(date__month), 1),
