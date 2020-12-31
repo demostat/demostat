@@ -139,6 +139,8 @@ class Demo(models.Model):
     description = models.TextField()
     note = models.TextField(blank=True)
 
+    emphasise = models.BooleanField(default=False)
+
     tags = models.ManyToManyField(Tag, blank=True)
 
     def __date(self):
