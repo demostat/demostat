@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 # Register your models here.
 from .models import Organisation, Region, Location, Tag, Demo, Link
@@ -35,6 +36,7 @@ class DemoAdmin(admin.ModelAdmin):
 class LinkAdmin(admin.ModelAdmin):
     list_display = (
             'title',
+            'fqdn',
             'demo_name',
             'demo_date',
         )
@@ -52,6 +54,9 @@ class LinkAdmin(admin.ModelAdmin):
 
     def demo_date(self, obj):
         return obj.demo.date
+
+    def fqdn(self, obj):
+        return format_html("<a href='{}'>{}</a>", obj.url, obj.fqdn)
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -73,9 +78,16 @@ class LocationAdmin(admin.ModelAdmin):
 class OrganisationAdmin(admin.ModelAdmin):
     list_display = (
             'name',
+            'url_fqdn',
         )
 
     prepopulated_fields = {"slug": ("name",)}
+
+    def url_fqdn(self, obj):
+        if not obj.url_fqdn:
+            return None
+
+        return format_html("<a href='{}'>{}</a>", obj.url, obj.url_fqdn)
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
