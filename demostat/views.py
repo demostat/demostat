@@ -114,11 +114,16 @@ def IndexView(request):
 
     demo_list = Demo.objects.filter(date__gt=timezone.now().date(), date__lt=timezone.now().date()+datetime.timedelta(weeks=4)).order_by('date')
     demo_next = Demo.objects.filter(date__gte=datetime.datetime(timezone.now().year, timezone.now().month, timezone.now().day)).order_by('date').first()
+    demo_emphasise = Demo.objects.filter(
+            date__gt=timezone.now().date(),
+            date__lt=timezone.now().date()+datetime.timedelta(weeks=4),
+            emphasise=True).order_by('date')[:3]
 
     return render(request, 'demostat/index.html', make_context_object({
         'region_list': region_list,
         'demo_list': demo_list,
         'demo_next': demo_next,
+        'demo_emphasise': demo_emphasise,
     }))
 
 def demos(request):

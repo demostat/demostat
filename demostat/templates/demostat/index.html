@@ -25,6 +25,16 @@
   </div>
 </section>
 {% endif %}-->
+{% if demo_emphasise %}
+<h3 class="title">Hervorgehobene Demonstrationen</h3>
+<div class="row">
+  {% for demo in demo_emphasise %}
+  <div class="col-md mb-2">
+    {% include "demostat/components/demo_card.html" %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 {% include "demostat/components/demo_card_list.html" %}
 {% if demo_next %}
 <section>
