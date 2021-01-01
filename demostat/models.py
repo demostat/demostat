@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from urllib.parse import urlparse
 
 import decimal
 import datetime
@@ -16,6 +17,13 @@ class Organisation(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def url_fqdn(self):
+        if not self.url:
+            return None
+
+        return urlparse(self.url).hostname.replace('www.','')
 
 class Region(models.Model):
     """
@@ -182,3 +190,7 @@ class Link(models.Model):
 
     def __str__(self):
         return str(self.demo) + '; ' + self.title
+
+    @property
+    def fqdn(self):
+        return urlparse(self.url).hostname.replace('www.','')
